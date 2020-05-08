@@ -1,0 +1,4 @@
+elasticsearch/storage/nodes
+logstash/logfile
+nginx/data
+nginx/etc/.htpasswd.user
