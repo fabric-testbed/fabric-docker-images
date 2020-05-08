@@ -270,7 +270,9 @@ sudo systemctl enable filebeat
 
 &nbsp;
 
-# Other Resources
-
+# 7. Reference
+- elasticsearch docker hub: [https://hub.docker.com/_/elasticsearch](https://hub.docker.com/_/elasticsearch)
+- logstash docker hub: [https://hub.docker.com/_/logstash](https://hub.docker.com/_/logstash)
+- kibana docker hub: [https://hub.docker.com/_/kibana](https://hub.docker.com/_/kibana)
 - [Run Filebeat on Docker](https://www.elastic.co/guide/en/beats/filebeat/current/running-on-docker.html)
 - [Filebeat Modules](https://www.elastic.co/guide/en/beats/filebeat/6.8/filebeat-modules.html)

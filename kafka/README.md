@@ -204,8 +204,10 @@ docker-compose down -v
 
 &nbsp;
 
-# 4. Other Resources
+# 4. Reference
 
-- [wurstmeister/kafka-docker](https://github.com/wurstmeister/kafka-docker)
-- [Kafka connectivity](https://github.com/wurstmeister/kafka-docker/wiki/Connectivity)
+- Kafka (not official): [https://hub.docker.com/r/bitnami/kafka](https://hub.docker.com/r/bitnami/kafka)
+- zookeeper: [https://hub.docker.com/_/zookeeper](https://hub.docker.com/_/zookeeper)
+- wurstmeister/kafka-docker: [https://github.com/wurstmeister/kafka-docker](https://github.com/wurstmeister/kafka-docker)
+- Kafka connectivity: [https://github.com/wurstmeister/kafka-docker/wiki/Connectivity](https://github.com/wurstmeister/kafka-docker/wiki/Connectivity)
 
