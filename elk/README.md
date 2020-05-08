@@ -1,5 +1,5 @@
 # Using Docker to deploy Elastic Stack (ES)
-This document shows how to deploy each part (**Elasticsearch, Logstash, Kibana and Filebeat**) of **Elastic Stack (ES)** using Docker and Docker-compose.
+This document shows how to deploy each part (**Elasticsearch, Logstash, Kibana and Filebeat**) of **Elastic Stack (ES)** and **Nginx** using Docker and Docker-compose.
 
 This has been tested with **CentOS Linux release 7.5.1804 (Core)**. 
 
@@ -270,7 +270,7 @@ sudo systemctl enable filebeat
 
 &nbsp;
 
-# Other Sources
+# Other Resources
 
 - [Run Filebeat on Docker](https://www.elastic.co/guide/en/beats/filebeat/current/running-on-docker.html)
 - [Filebeat Modules](https://www.elastic.co/guide/en/beats/filebeat/6.8/filebeat-modules.html)
