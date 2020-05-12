@@ -42,3 +42,10 @@ reference: [https://hub.docker.com/r/prom/prometheus/](https://hub.docker.com/r/
 ## Grafana
 
 reference: [https://hub.docker.com/r/grafana/grafana](https://hub.docker.com/r/grafana/grafana)
+
+## [AuthzForce RESTful PDP](authzforce-pdp/)
+
+What is AuthzForce PDP?
+- A Spring-based REST implementation of an AuthzForce PDP based on AuthzForce core engine
+- AuthzForce [documentation](https://authzforce-ce-fiware.readthedocs.io/en/latest/)
+- AuthzForce on [GitHub](https://github.com/authzforce)
