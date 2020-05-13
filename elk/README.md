@@ -11,65 +11,11 @@ This has been tested with **CentOS Linux release 7.5.1804 (Core)**.
 
 &nbsp;
 
-# 1. Pre-requirements 
+# 1. Configuration
 
-## 1.1 Installing Docker CE
-> Reference: https://docs.docker.com/engine/install/centos/
+> Install Docker CE and Docker-Compose if you do not have. [Link to instructions](/README.md)
 
-### 1. Remove old versions (if any exists)
-
-```bash
-sudo yum remove docker docker-client docker-client-latest docker-common docker-latest docker-latest-logrotate docker-logrotate docker-engine
-```
-
-### 2. Set up the repository and install Docker Engine
-```bash
-sudo yum install -y yum-utils
-
-sudo yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
-
-sudo yum install docker-ce docker-ce-cli containerd.io
-```
-
-### 3. Start Docker and test if it works
-
-```bash
-sudo systemctl start docker
-
-sudo docker run hello-world
-```
-
-### 4. Adding user to docker group 
-
-> You may need to log out and in again to take this change affect. 
-
-```bash
-sudo usermod -aG docker your_user_name_here
-```
-
-## 1.2 Installing Docker-compose
-
-> Reference: https://docs.docker.com/compose/install/
-
-### 1. Download current stable version of Docker Compose
-
-```bash
-sudo curl -L "https://github.com/docker/compose/releases/download/1.25.5/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-```
-
-### 2. Apply executable permissions to the binary
-
-```bash
-sudo chmod +x /usr/local/bin/docker-compose
-```
-
-### 3. Test if it works
-
-```bash
-docker-compose --version
-```
-
-## 1.3 Run bash script to set up folders
+## 1.1 Run bash script to set up folders
 
 Run **./setfolder.sh** to create folders that are needed to bind with docker containers.
 
@@ -77,7 +23,7 @@ Run **./setfolder.sh** to create folders that are needed to bind with docker con
 sudo ./setfolder.sh
 ```
 
-## 1.4 Change settings for your environment
+## 1.2 Change settings for your environment
 
 1. Change ES version if you want other version. The default is **7.6.2**. You can change it from **elk/.env** file.
 2. Change password of Elasticsearch and Kibana in **docker-compose.yml** from **'changeme'** to something else.

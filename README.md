@@ -4,6 +4,65 @@ Docker images or related Compose definitions for use with the FABRIC project. Al
 
 **NOTE**: initial commit contains only the references to the basic images without any modificaton for FABRIC, which will be assigned at a later date.
 
+## Pre-requirements
+You may need to install Docker and Docker-Compose to build and start services. This section shows how to install Docker and Docker-compose. The instructions below are tested with **CentOS Linux release 7.5.1804 (Core)**.
+
+### 1. Installing Docker CE
+> Reference: https://docs.docker.com/engine/install/
+
+#### 1. Remove old versions (if any exists)
+
+```bash
+sudo yum remove docker docker-client docker-client-latest docker-common docker-latest docker-latest-logrotate docker-logrotate docker-engine
+```
+
+#### 2. Set up the repository and install Docker Engine
+```bash
+sudo yum install -y yum-utils
+
+sudo yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+
+sudo yum install docker-ce docker-ce-cli containerd.io
+```
+
+#### 3. Start Docker and test if it works
+
+```bash
+sudo systemctl start docker
+
+sudo docker run hello-world
+```
+
+#### 4. Adding user to docker group 
+
+> You may need to log out and in again to take this change affect. 
+
+```bash
+sudo usermod -aG docker your_user_name_here
+```
+
+### 2. Installing Docker-compose
+
+> Reference: https://docs.docker.com/compose/install/
+
+#### 1. Download current stable version of Docker Compose
+
+```bash
+sudo curl -L "https://github.com/docker/compose/releases/download/1.25.5/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+```
+
+#### 2. Apply executable permissions to the binary
+
+```bash
+sudo chmod +x /usr/local/bin/docker-compose
+```
+
+#### 3. Test if it works and prints version 
+
+```bash
+docker-compose --version
+```
+
 ## [Neo4j/APOC](neo4j)
 
 What is Neo4j?
