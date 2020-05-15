@@ -1,7 +1,7 @@
 ### Versions available:
 
 Available in this repo:
-- 4.0.0, latest: ([Dockerfile](4.0.0/))
+- 4.0.3, (APOC 4.0.0.10, GDS 1.2.1) latest: ([Dockerfile](4.0.3/))
 
 Available from RENCI-NRIG/impact-docker-images:
 - 3.5.0, latest: ([Dockerfile](https://github.com/RENCI-NRIG/impact-docker-images/tree/master/neo4j/3.5.0))
@@ -15,8 +15,12 @@ Available from RENCI-NRIG/impact-docker-images:
 
 ### What is APOC?
 
-- APOC stands for Awesome Procedures on Cypher. Before APOC’s release, developers needed to write their own procedures and functions for common functionality that Cypher or the Neo4j database had not yet implemented for support. Each developer might write his own version of these functions, causing a lot of duplication.
+- [APOC](https://neo4j.com/developer/neo4j-apoc/) stands for Awesome Procedures on Cypher. Before APOC’s release, developers needed to write their own procedures and functions for common functionality that Cypher or the Neo4j database had not yet implemented for support. Each developer might write his own version of these functions, causing a lot of duplication.
 
+
+### What is GDS?
+
+This [library](https://neo4j.com/docs/graph-data-science/current/introduction/) provides efficiently implemented, parallel versions of common graph algorithms for Neo4j, exposed as Cypher procedures.
 
 ### How to run
 
@@ -27,8 +31,15 @@ The docker definition has two required volumes - one in which Neo4j stores its d
 
 Example:
 
+```
+$ mkdir -p neo4j/data
+$ mkdir -p neo4j/imports
+$ echo password > neo4j/password
+```
+
+Then start the docker:
 ```docker
-docker run -d \
+$ docker run -d \
   --user=$(id -u):$(id -g) \
   --name=neo4j \
   --publish=7473:7473 \
@@ -37,7 +48,7 @@ docker run -d \
   --volume=$(pwd)/neo4j/data:/data \
   --volume=$(pwd)/neo4j/imports:/imports \
   -e NEO4J_AUTH=neo4j/password \
-  rencinrig/neo4j-apoc:latest
+  fabrictestbed/neo4j:latest
 ```
 
 Once the container completes it's startup script a web UI will be running at [http://localhost:7474/](http://localhost:7474/)

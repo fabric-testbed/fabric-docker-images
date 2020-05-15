@@ -63,7 +63,7 @@ sudo chmod +x /usr/local/bin/docker-compose
 docker-compose --version
 ```
 
-## [Neo4j/APOC](neo4j)
+## [Neo4j/APOC/GDS](neo4j)
 
 What is Neo4j?
 
@@ -74,6 +74,10 @@ What is Neo4j?
 What is APOC?
 
 - APOC stands for Awesome Procedures on Cypher. Before APOC’s release, developers needed to write their own procedures and functions for common functionality that Cypher or the Neo4j database had not yet implemented for support. Each developer might write his own version of these functions, causing a lot of duplication.
+
+What is GDS?
+
+- This [library](https://neo4j.com/docs/graph-data-science/current/introduction/) provides efficiently implemented, parallel versions of common graph algorithms for Neo4j, exposed as Cypher procedures.
 
 ## [Kafka](kafka)
 
