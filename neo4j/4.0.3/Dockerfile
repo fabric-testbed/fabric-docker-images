@@ -1,4 +1,5 @@
 # Dockerfile for Neo4j with APOC plugin
+### TESTING - ignore this for now ###
 FROM neo4j:4.0.3
 MAINTAINER Ilya Baldin <ibaldin@renci.org>
 LABEL maintainer="ibaldin@renci.org"
