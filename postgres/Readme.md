@@ -9,7 +9,7 @@ This is a FABRIC specific image which allows multiple databases to be created in
 Below is an example of docker-compose which allows creating an actorDb container with three databases:
 ```
      database:
-         image: fabrictestbed/postgres:latest
+         image: fabrictestbed/postgres:12.3
          container_name: actordb
          restart: always
          environment:
