@@ -1,7 +1,7 @@
 server.name: kibana
 server.host: "0.0.0.0"
 server.basePath: "/kibana"
-elasticsearch.hosts: http://elasticsearch:9200
+elasticsearch.hosts: http://es01:9200
 xpack.apm.enabled: true
 xpack.apm.ui.enabled: true
 logging.dest: stdout

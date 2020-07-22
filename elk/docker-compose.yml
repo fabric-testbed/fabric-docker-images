@@ -1,65 +1,91 @@
 version: '3'
 services:
-  elasticsearch:
-    container_name: elasticsearch
-    build:
-      context: elasticsearch
-      args:
-        ELK_VERSION: $ELK_VERSION
-    volumes:
-      - ./elasticsearch/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
-      - ./elasticsearch/storage:/usr/share/elasticsearch/data:rw
+  es01:
+    image: docker.elastic.co/elasticsearch/elasticsearch:${ELK_VERSION}
+    container_name: es01
     ports:
       - "9200:9200"
-      - "9300:9300"
     environment:
-      - ELASTIC_PASSWORD="changeme"
-      - ES_JAVA_OPTS=-Xmx256m -Xms256m
-      - discovery.type=single-node
+      - node.name=es01
+      - cluster.name=es-docker-cluster
+      - discovery.seed_hosts=es02,es03
+      - cluster.initial_master_nodes=es01,es02,es03
       - bootstrap.memory_lock=true
-      - http.cors.allow-origin=*
+      - "ES_JAVA_OPTS=-Xmx256m -Xms256m"
     ulimits:
       memlock:
         soft:  -1
         hard:  -1
+    volumes:
+      - data01:/usr/share/elasticsearch/data
+    networks:
+      - elk
+
+  es02:
+    image: docker.elastic.co/elasticsearch/elasticsearch:${ELK_VERSION}
+    container_name: es02
+    ports:
+      - "9201:9200"
+    environment:
+      - node.name=es02
+      - cluster.name=es-docker-cluster
+      - discovery.seed_hosts=es01,es03
+      - cluster.initial_master_nodes=es01,es02,es03
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xmx256m -Xms256m"
+    ulimits:
+      memlock:
+        soft:  -1
+        hard:  -1
+    volumes:
+      - data02:/usr/share/elasticsearch/data
+    networks:
+      - elk
+
+  es03:
+    image: docker.elastic.co/elasticsearch/elasticsearch:${ELK_VERSION}
+    container_name: es03
+    ports:
+      - "9202:9200"
+    environment:
+      - node.name=es03
+      - cluster.name=es-docker-cluster
+      - discovery.seed_hosts=es01,es02
+      - cluster.initial_master_nodes=es01,es02,es03
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xmx256m -Xms256m"
+    ulimits:
+      memlock:
+        soft:  -1
+        hard:  -1
+    volumes:
+      - data03:/usr/share/elasticsearch/data
     networks:
       - elk
 
   logstash:
+    image: docker.elastic.co/logstash/logstash:${ELK_VERSION}
     container_name: logstash
-    build:
-      context: logstash
-      args:
-        ELK_VERSION: $ELK_VERSION
     volumes:
       - ./logstash/config/logstash.yml:/usr/share/logstash/config/logstash.yml
       - ./logstash/pipeline:/usr/share/logstash/pipeline
     environment:
-      - ES_JAVA_OPTS=-Xmx256m -Xms256m
+      - "ES_JAVA_OPTS=-Xmx256m -Xms256m"
     ports:
       - "5000:5000"
     networks:
       - elk
-    depends_on:
-      - elasticsearch
 
   kibana:
+    image: docker.elastic.co/kibana/kibana:${ELK_VERSION}
     container_name: kibana
-    build:
-      context: kibana/
-      args:
-        ELK_VERSION: $ELK_VERSION
-    volumes:
-      - ./kibana/config:/usr/share/kibana/config
     ports:
       - "5601:5601"
     environment:
-      - ELASTICSEARCH_PASSWORD="changeme"
-      - ELASTICSEARCH_HOSTS="http://elasticsearch:9200"
+      ELASTICSEARCH_URL: http://es01:9200
+      ELASTICSEARCH_HOSTS: http://es01:9200
     networks:
       - elk
-    depends_on:
-      - elasticsearch
 
   nginx:
     image: nginx:alpine
@@ -69,15 +95,27 @@ services:
       - './nginx/public:/usr/share/nginx/html:ro'
       - './nginx/etc/.htpasswd.user:/etc/nginx/.htpasswd.user:ro'
     links:
-      - elasticsearch
+      - es01
+      - es02
+      - es03
       - kibana
     depends_on:
-      - elasticsearch
+      - es01
+      - es02
+      - es03
       - kibana
     ports:
       - '80:80'
     networks:
       - elk
+
+volumes:
+  data01:
+    driver: local
+  data02:
+    driver: local
+  data03:
+    driver: local
 
 networks:
   elk:

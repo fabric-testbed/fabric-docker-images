@@ -1,7 +1,7 @@
 # Using Docker to deploy Elastic Stack (ES)
 This document shows how to deploy each part (**Elasticsearch, Logstash, Kibana and Filebeat**) of **Elastic Stack (ES)** and **Nginx** using Docker and Docker-compose.
 
-This has been tested with **CentOS Linux release 7.5.1804 (Core)**. 
+This has been tested with **CentOS Linux release 7.5.1804 (Core)** and **Ubuntu 20.04 LTS**. 
 
 &nbsp;
 
@@ -25,9 +25,48 @@ sudo ./setfolder.sh
 
 ## 1.2 Change settings for your environment
 
-1. Change ES version if you want other version. The default is **7.6.2**. You can change it from **elk/.env** file.
-2. Change password of Elasticsearch and Kibana in **docker-compose.yml** from **'changeme'** to something else.
-3. Set IP address in the Nginx configuration. You can change **'server_name'** at **elk/nginx/etc/nginx.conf** file.
+1. Change ES version if you want other version. The default is **7.8.0**. You can change it from **elk/.env** file.
+2. Set IP address in the Nginx configuration. You can change **'server_name'** at **elk/nginx/etc/nginx.conf** file.
+
+## 1.3 Increase max_map_count on Docker host
+
+You need to increase max_map_count on the Docker host.
+
+```bash
+sudo sysctl -w vm.max_map_count=262144
+```
+
+## 1.4 Set Nginx password
+
+### Install httpd-tools (or apache2-utils) and create password for **fabricadmin** account
+
+> You can change **fabricadmin** to something else as you want.
+
+**CentOS**
+```bash
+sudo yum install -y httpd-tools
+```
+
+**Ubuntu**
+```bash
+sudo apt-get install apache2-utils
+```
+
+### Set password for **fabricadmin** user
+
+```bash
+cd nginx/etc
+
+htpasswd -c .htpasswd.user fabricadmin
+```
+
+After all configurations are set, you can run single command to bring up all containers.
+
+```bash
+docker-compose up
+```
+
+Or you can start each part (Elasticsearch, Logstash, Kibana, Nginx) separately. You can follow steps below to start each part one-by-one.
 
 &nbsp;
 
@@ -35,21 +74,15 @@ sudo ./setfolder.sh
 
 This section shows how to build and run the **Elasticsearch** container using docker-compose.
 
-### 1. Build Elasticsearch container
+### 1. Start Elasticsearch cluster with 3 nodes (detached mode)
 
 ```bash
-docker-compose build elasticsearch
-```
-
-### 2. Start Elasticsearch container (detached mode)
-
-```bash
-docker-compose up -d elasticsearch
+docker-compose up -d es01 es02 es03
 ```
 
 > Run container without **'-d'** to check if you want to check the container works.
 
-### 3. Check if the Elasticsearch container works using CURL
+### 2. Check if the Elasticsearch container works using CURL
 
 > Use **docker-compose ps -a** to check status of docker containers.
 
@@ -57,17 +90,17 @@ docker-compose up -d elasticsearch
 
 $ curl http://127.0.0.1:9200/
 {
-  "name" : "b01695c74609",
-  "cluster_name" : "docker-elk-fabric",
-  "cluster_uuid" : "xE7R-QTGSCiwQ9kPQGnIpg",
+  "name" : "es01",
+  "cluster_name" : "es-docker-cluster",
+  "cluster_uuid" : "eqbRkJy4Tt2l5HZBrah7gw",
   "version" : {
-    "number" : "7.6.2",
+    "number" : "7.8.0",
     "build_flavor" : "default",
     "build_type" : "docker",
-    "build_hash" : "ef48eb35cf30adf4db14086e8aabd07ef6fb113f",
-    "build_date" : "2020-03-26T06:34:37.794943Z",
+    "build_hash" : "757314695644ea9a1dc2fecd26d1a43856725e65",
+    "build_date" : "2020-06-14T19:35:50.234439Z",
     "build_snapshot" : false,
-    "lucene_version" : "8.4.0",
+    "lucene_version" : "8.5.1",
     "minimum_wire_compatibility_version" : "6.8.0",
     "minimum_index_compatibility_version" : "6.0.0-beta1"
   },
@@ -81,13 +114,7 @@ $ curl http://127.0.0.1:9200/
 
 This section shows how to build and run the **Logstash** container using docker-compose.
 
-### 1. Build Logstash container
-
-```bash
-docker-compose build logstash
-```
-
-### 2. Run Elasticsearch container 
+### 1. Run Elasticsearch container 
 
 Run the Logstash to check if it works.
 
@@ -101,7 +128,7 @@ If everything works fine, run it as detached mode.
 docker-compose up -d logstash
 ```
 
-### 3. Check if Logstash container runs
+### 2. Check if Logstash container runs
 
 ```bash
 docker-compose ps -a
@@ -113,13 +140,7 @@ docker-compose ps -a
 
 This section shows how to build and run the **Kibana** container using docker-compose.
 
-### 1. Build Kibana container
-
-```bash
-docker-compose build kibana
-```
-
-### 2. Run Kibana container 
+### 1. Run Kibana container 
 
 ```bash
 docker-compose up -d kibana
@@ -127,7 +148,7 @@ docker-compose up -d kibana
 
 > Run container without **'-d'** to check if you want to check the container works.
 
-### 3. Check if Logstash container runs
+### 2. Check if Logstash container runs
 
 ```bash
 docker-compose ps -a
@@ -139,31 +160,20 @@ docker-compose ps -a
 
 This section shows how to build and run the **Nginx** container using docker-compose. **Nginx** can be used as a reverse proxy for Kibana.
 
-### 1. Install httpd-tools and create password for 'fabricadmin' account
 
-> You can change **fabricadmin** to something else as you want.
-
-```bash
-sudo yum install -y httpd-tools
-
-cd nginx/etc
-
-htpasswd -c .htpasswd.user fabricadmin
-```
-
-### 2. Run Nginx container
+### 1. Run Nginx container
 
 ```bash
 docker-compose up -d nginx
 ```
 
-### 3. Check if Nginx container runs
+### 2. Check if Nginx container runs
 
 ```bash
 docker-compose ps -a
 ```
 
-### 4. Check if the Elastic Stack works by accessing http://Your_IP/kibana
+### 3. Check if the Elastic Stack works by accessing **http://Your_IP_ADDRESS**
 
 You can enter **'fabricadmin'** as user id and put your password you created.
   
@@ -216,7 +226,25 @@ sudo systemctl enable filebeat
 
 &nbsp;
 
-# 7. Reference
+# 7. Useful command references
+
+Stop dockers & remove & tear down
+
+```bash
+docker-compose stop
+docker-compose rm
+docker-compose down -v
+```
+
+Display log output from services (-f follows log output)
+
+```bash
+docker-compose logs -f es01 es02 es03
+```
+
+&nbsp;
+
+# 8. Reference
 - elasticsearch docker hub: [https://hub.docker.com/_/elasticsearch](https://hub.docker.com/_/elasticsearch)
 - logstash docker hub: [https://hub.docker.com/_/logstash](https://hub.docker.com/_/logstash)
 - kibana docker hub: [https://hub.docker.com/_/kibana](https://hub.docker.com/_/kibana)
