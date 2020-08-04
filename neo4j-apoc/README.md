@@ -48,7 +48,7 @@ $ docker run -d \
   --volume=$(pwd)/neo4j/data:/data \
   --volume=$(pwd)/neo4j/imports:/imports \
   -e NEO4J_AUTH=neo4j/password \
-  fabrictestbed/neo4j:latest
+  fabrictestbed/neo4j-apoc:latest
 ```
 
 Once the container completes it's startup script a web UI will be running at [http://localhost:7474/](http://localhost:7474/)
