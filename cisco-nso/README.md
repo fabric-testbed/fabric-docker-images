@@ -3,7 +3,7 @@
 This directory uses a git submodule to pull the Cisco nso-docker repository and its Docker image definitions and Makefile.
 
 Available in this repo:
-- Scripts compatible with NSO version to start the NSO docker containers.
+- Scripts compatible with NSO version 5.3 to start the NSO docker containers.
 
 ### What is NSO
 
