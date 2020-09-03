@@ -43,7 +43,7 @@ openssl req -new -newkey rsa:2048 -nodes -keyout your.hostname.com.key -out your
 By running create-certs docker-compose file, it will automatically create all certificates signed by own private CA for components of ELK stack.
 
 ```bash
-cd fabric-docker-images/elk-ssl
+cd fabric-docker-images/elk-ssl-xpack
 docker-compose -f create-certs.yml run --rm create_certs
 ```
 
@@ -225,13 +225,15 @@ ip_address_of_elk  logstash
 
 Update the password of `beats_system` under `output.logstash` in the `/etc/metricbeat/metricbeat.yml` on the remote client. 
 
+Update the file location of `ssl.certificate_authorities` to the ELK's own CA certificate file `ca.crt`.
+
 ```yaml
 # ------------------------ Logstash Output -------------------------
 output.logstash:
   # The Logstash hosts
   hosts: ["logstash:5044"]
   username: "beats_system"
-  password: "Change password here"
+  password: "beats_system-password-here"
 
   # Optional SSL. By default is off.
   # List of root certificates for HTTPS server verifications
