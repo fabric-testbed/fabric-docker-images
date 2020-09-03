@@ -15,7 +15,12 @@ This has been tested with **CentOS Linux release 7.5.1804 (Core)** and **Ubuntu 
 
 > Install Docker CE and Docker-Compose if you do not have. [Link to instructions](/README.md)
 
-## 1.1 Run bash script to set up folders
+## 1.1 Git clone 
+```bash
+git clone https://github.com/fabric-testbed/fabric-docker-images.git
+```
+
+## 1.2 Run bash script to set up folders
 
 Run **./setfolder.sh** to create folders that are needed to bind with docker containers.
 
@@ -23,12 +28,12 @@ Run **./setfolder.sh** to create folders that are needed to bind with docker con
 sudo ./setfolder.sh
 ```
 
-## 1.2 Change settings for your environment
+## 1.3 Change settings for your environment
 
 1. Change ES version if you want other version. The default is **7.8.0**. You can change it from **elk/.env** file.
 2. Set IP address in the Nginx configuration. You can change **'server_name'** at **elk/nginx/etc/nginx.conf** file.
 
-## 1.3 Increase max_map_count on Docker host
+## 1.4 Increase max_map_count on Docker host
 
 You need to increase max_map_count on the Docker host.
 
@@ -36,7 +41,7 @@ You need to increase max_map_count on the Docker host.
 sudo sysctl -w vm.max_map_count=262144
 ```
 
-## 1.4 Set Nginx password
+## 1.5 Set Nginx password
 
 ### Install httpd-tools (or apache2-utils) and create password for **fabricadmin** account
 
