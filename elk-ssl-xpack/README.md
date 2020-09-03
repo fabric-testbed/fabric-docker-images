@@ -247,8 +247,15 @@ Start Metricbeat on the remote client.
 ```bash
 sudo systemctl start metricbeat
 ```
+
 &nbsp;
+
 # 8. Reference
-- elasticsearch docker hub: [https://hub.docker.com/_/elasticsearch](https://hub.docker.com/_/elasticsearch)
-- logstash docker hub: [https://hub.docker.com/_/logstash](https://hub.docker.com/_/logstash)
-- kibana docker hub: [https://hub.docker.com/_/kibana](https://hub.docker.com/_/kibana)
+- [Elasticsearch docker hub](https://hub.docker.com/_/elasticsearch)
+- [Logstash docker hub](https://hub.docker.com/_/logstash)
+- [Kibana docker hub](https://hub.docker.com/_/kibana)
+- [Running the Elastic Stack on Docker](https://www.elastic.co/guide/en/elastic-stack-get-started/current/get-started-docker.html)
+- [Configuring SSL, TLS, and HTTPS to secure Elasticsearch, Kibana, Beats, and Logstash](https://www.elastic.co/blog/configuring-ssl-tls-and-https-to-secure-elasticsearch-kibana-beats-and-logstash)
+- [Secure communication with Logstash](https://www.elastic.co/guide/en/beats/filebeat/current/configuring-ssl-logstash.html)
+- [SSL client fails to connect to Logstash](https://www.elastic.co/guide/en/beats/packetbeat/current/ssl-client-fails.html)
+- [elasticsearch-certutil](https://www.elastic.co/guide/en/elasticsearch/reference/current/certutil.html)
