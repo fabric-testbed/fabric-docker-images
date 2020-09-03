@@ -59,6 +59,12 @@ What is Elastic Stack (ES or ELK)?
 - logstash: [https://hub.docker.com/_/logstash](https://hub.docker.com/_/logstash)
 - kibana: [https://hub.docker.com/_/kibana](https://hub.docker.com/_/kibana)
 
+## [ELK with SSL and X-Pack](elk-ssl-xpack)
+
+This shows how to set up **X-Pack security enabled (Free Basic License)** ELK stack with **SSL** using Nginx as a reverse proxy. X-Pack allows **role-based user controll** through Kibana and **SSL encryption** between components of ELK stack and remote clients. **Nginx** with a public CA signed SSL certificate redirects outer HTTP/HTTPS traffic to Kibana container running in the host virtual machine.
+
+- Elasticsearch X-Pack: [https://www.elastic.co/guide/en/elasticsearch/reference/current/setup-xpack.html](https://www.elastic.co/guide/en/elasticsearch/reference/current/setup-xpack.html)
+- Elasticsearch Stack Free Basic Subscriptions: [https://www.elastic.co/subscriptions](https://www.elastic.co/subscriptions)
 ## Prometheus
 
 reference: [https://hub.docker.com/r/prom/prometheus/](https://hub.docker.com/r/prom/prometheus/)
