@@ -37,6 +37,8 @@ Create CSR for the Nginx and get a signed SSL certificate from a public CA.
 openssl req -new -newkey rsa:2048 -nodes -keyout your.hostname.com.key -out your.hostname.com.csr
 ```
 
+> You can change `docker-compose.yml` file to adjust required RAM for each container (`es01`, `es02`, `es03`, and `logstash`) based on your host VM's available resource. By default, each container uses `4GB`. Therefore, you may need `16GB` RAM in your host VM. 
+
 &nbsp;
 # 2. Create own certificates for ELK stack components
 
@@ -50,9 +52,10 @@ docker-compose -f create-certs.yml run --rm create_certs
 &nbsp;
 # 3. Elasticsearch
 
-## 3.1 Start 3 nodes for ES cluster
+## 3.1 Create data folders and start 3 nodes for ES cluster
 
 ```bash
+./setdatafolders.sh
 docker-compose up -d es01 es02 es03
 ```
 

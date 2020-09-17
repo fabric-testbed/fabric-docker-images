@@ -10,7 +10,7 @@ services:
       - discovery.seed_hosts=es02,es03
       - cluster.initial_master_nodes=es01,es02,es03
       - bootstrap.memory_lock=true
-      - "ES_JAVA_OPTS=-Xms2g -Xmx2g"
+      - "ES_JAVA_OPTS=-Xms4g -Xmx4g"
       - xpack.license.self_generated.type=basic
       - xpack.security.enabled=true
       - xpack.security.http.ssl.enabled=true 
@@ -30,7 +30,7 @@ services:
         soft: 65536
         hard: 65536
     volumes:
-      - data01:/usr/share/elasticsearch/data
+      - ./esdata/01:/usr/share/elasticsearch/data
       - certs:$CERTS_DIR
     ports:
       - 9200:9200
@@ -52,7 +52,7 @@ services:
       - discovery.seed_hosts=es01,es03
       - cluster.initial_master_nodes=es01,es02,es03
       - bootstrap.memory_lock=true
-      - "ES_JAVA_OPTS=-Xms2g -Xmx2g"
+      - "ES_JAVA_OPTS=-Xms4g -Xmx4g"
       - xpack.license.self_generated.type=basic
       - xpack.security.enabled=true
       - xpack.security.http.ssl.enabled=true
@@ -72,7 +72,7 @@ services:
         soft: 65536
         hard: 65536
     volumes:
-      - data02:/usr/share/elasticsearch/data
+      - ./esdata/02:/usr/share/elasticsearch/data
       - certs:$CERTS_DIR
     networks:
       - elastic
@@ -86,7 +86,7 @@ services:
       - discovery.seed_hosts=es01,es02
       - cluster.initial_master_nodes=es01,es02,es03
       - bootstrap.memory_lock=true
-      - "ES_JAVA_OPTS=-Xms2g -Xmx2g"
+      - "ES_JAVA_OPTS=-Xms4g -Xmx4g"
       - xpack.license.self_generated.type=basic
       - xpack.security.enabled=true
       - xpack.security.http.ssl.enabled=true
@@ -106,7 +106,7 @@ services:
         soft: 65536
         hard: 65536
     volumes:
-      - data03:/usr/share/elasticsearch/data
+      - ./esdata/03:/usr/share/elasticsearch/data
       - certs:$CERTS_DIR
     networks:
       - elastic
@@ -180,12 +180,6 @@ services:
       - elastic
 
 volumes:
-  data01:
-    driver: local
-  data02:
-    driver: local
-  data03:
-    driver: local
   certs:
     driver: local
 
