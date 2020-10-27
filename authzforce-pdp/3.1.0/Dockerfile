@@ -10,11 +10,11 @@ LABEL org.label-schema.name="AuthzForce RESTful PDP together with CLI tool and e
 # so they can be customized. Policies are assumed to live in /policies
 VOLUME ["/conf", "/policies"]
 
-ARG PDP_JAR_VERSION="3.0.0"
+ARG PDP_JAR_VERSION="3.1.0"
 ENV PDP_VERSION ${PDP_JAR_VERSION}
 ENV PDP_JAR_URL="https://repo1.maven.org/maven2/org/ow2/authzforce/authzforce-ce-restful-pdp-cxf-spring-boot-server/${PDP_JAR_VERSION}/authzforce-ce-restful-pdp-cxf-spring-boot-server-${PDP_JAR_VERSION}.jar"
 
-ARG CLI_JAR_VERSION="15.1.0"
+ARG CLI_JAR_VERSION="16.0.0"
 ENV CLI_VERSION ${CLI_JAR_VERSION}
 ENV CLI_JAR_URL="https://repo1.maven.org/maven2/org/ow2/authzforce/authzforce-ce-core-pdp-cli/${CLI_JAR_VERSION}/authzforce-ce-core-pdp-cli-${CLI_JAR_VERSION}.jar"
 
