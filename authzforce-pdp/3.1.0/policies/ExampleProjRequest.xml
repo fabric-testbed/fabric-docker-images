@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Request ReturnPolicyIdList="false"
+  CombinedDecision="false"
+  xmlns="urn:oasis:names:tc:xacml:3.0:core:schema:wd-17"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Attributes Category="urn:oasis:names:tc:xacml:1.0:subject-category:access-subject">
+    <Attribute IncludeInResult="false" AttributeId="urn:oasis:names:tc:xacml:1.0:subject:subject-id">
+      <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">ibaldin@unc.edu</AttributeValue>
+    </Attribute>
+    <Attribute IncludeInResult="false" AttributeId="urn:fabric:xacml:attributes:fabric-role">
+      <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">projectMember</AttributeValue>
+    </Attribute>
+    <Attribute IncludeInResult="false" AttributeId="urn:fabric:xacml:attributes:fabric-role">
+      <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">projectLead</AttributeValue>
+    </Attribute>
+    <!--
+    <Attribute IncludeInResult="false" AttributeId="urn:fabric:xacml:attributes:fabric-role">
+      <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">projectLead</AttributeValue>
+    </Attribute>
+  -->
+  </Attributes>
+  <Attributes Category="urn:oasis:names:tc:xacml:3.0:attribute-category:resource">
+    <Attribute IncludeInResult="false" AttributeId="urn:oasis:names:tc:xacml:1.0:resource:resource-id">
+      <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">project-X</AttributeValue>
+    </Attribute>
+    <Attribute IncludeInResult="false" AttributeId="urn:fabric:xacml:attributes:resource-type">
+      <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">project</AttributeValue>
+    </Attribute>
+    <Attribute IncludeInResult="false" AttributeId="urn:fabric:xacml:attributes:resource-creator">
+      <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">ibaldin@unc.edu</AttributeValue>
+    </Attribute>
+  </Attributes>
+  <Attributes Category="urn:oasis:names:tc:xacml:3.0:attribute-category:action">
+    <Attribute IncludeInResult="false" AttributeId="urn:oasis:names:tc:xacml:1.0:action:action-id">
+      <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">deleteProject</AttributeValue>
+    </Attribute>
+  </Attributes>
+  <Attributes Category="urn:oasis:names:tc:xacml:3.0:attribute-category:environment" />
+</Request>

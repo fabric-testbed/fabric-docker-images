@@ -1,0 +1,379 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PolicySet xmlns="urn:oasis:names:tc:xacml:3.0:core:schema:wd-17"
+  PolicySetId="urn:fabric:authz:xacml:ProjectExample1"
+  PolicyCombiningAlgId="urn:oasis:names:tc:xacml:1.0:policy-combining-algorithm:first-applicable"
+  Version="1.0">
+  <Description>
+    Example of a project management policy for FABRIC.
+  </Description>
+  <Target>
+    <AnyOf>
+      <AllOf>
+        <Match MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+          <AttributeValue
+              DataType="http://www.w3.org/2001/XMLSchema#string">project</AttributeValue>
+          <AttributeDesignator
+              AttributeId="urn:fabric:xacml:attributes:resource-type"
+              Category="urn:oasis:names:tc:xacml:3.0:attribute-category:resource"
+              DataType="http://www.w3.org/2001/XMLSchema#string"
+              MustBePresent="true"/>
+          </Match>
+        </AllOf>
+      </AnyOf>
+    </Target>
+    <!-- Create  projects -->
+    <Policy
+      PolicyId="urn:fabric:authz:xacml:ProjectExamle1:ProjectCreate"
+      RuleCombiningAlgId="urn:oasis:names:tc:xacml:3.0:rule-combining-algorithm:deny-unless-permit"
+      Version="1.0">
+      <Description>
+        Project creation.
+      </Description>
+      <Target>
+        <AnyOf>
+          <AllOf>
+            <Match MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+              <AttributeValue
+                  DataType="http://www.w3.org/2001/XMLSchema#string">createProject</AttributeValue>
+              <AttributeDesignator
+                  AttributeId="urn:oasis:names:tc:xacml:1.0:action:action-id"
+                  DataType="http://www.w3.org/2001/XMLSchema#string"
+                  Category="urn:oasis:names:tc:xacml:3.0:attribute-category:action"
+                  MustBePresent="false"/>
+            </Match>
+          </AllOf>
+        </AnyOf>
+      </Target>
+      <Rule Effect="Permit"
+        RuleId="urn:fabric:authz:xacml:ProjectExample1:ProjectCreateRule">
+        <Description>
+          Project leads and facility operators can create and delete projects.
+        </Description>
+        <Target/>
+        <Condition>
+            <Apply FunctionId="urn:oasis:names:tc:xacml:3.0:function:any-of-any">
+                <Function FunctionId="urn:oasis:names:tc:xacml:1.0:function:string-equal"/>
+                <AttributeDesignator
+                  AttributeId="urn:fabric:xacml:attributes:fabric-role"
+                  DataType="http://www.w3.org/2001/XMLSchema#string"
+                  Category="urn:oasis:names:tc:xacml:1.0:subject-category:access-subject"
+                  MustBePresent="true"
+                />
+                <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:string-bag">
+                  <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">projectLead</AttributeValue>
+                  <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">facilityOperator</AttributeValue>
+                </Apply>
+              </Apply>
+        </Condition>
+      </Rule>
+      <AdviceExpressions>
+        <AdviceExpression AdviceId="urn:fabric:authz:advice:deny-error" AppliesTo="Deny">
+          <AttributeAssignmentExpression AttributeId="urn:fabric:authz:attribute:pep-message">
+            <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">Only project leads and facility operators can create and delete projects.</AttributeValue>
+          </AttributeAssignmentExpression>
+        </AdviceExpression>
+      </AdviceExpressions>
+    </Policy>
+    <!-- delete projects -->
+    <Policy
+      PolicyId="urn:fabric:authz:xacml:ProjectExamle1:ProjectDelete"
+      RuleCombiningAlgId="urn:oasis:names:tc:xacml:3.0:rule-combining-algorithm:deny-unless-permit"
+      Version="1.0">
+      <Description>
+        Project deletion.
+      </Description>
+      <Target>
+        <AnyOf>
+          <AllOf>
+            <Match MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+              <AttributeValue
+                  DataType="http://www.w3.org/2001/XMLSchema#string">deleteProject</AttributeValue>
+              <AttributeDesignator
+                  AttributeId="urn:oasis:names:tc:xacml:1.0:action:action-id"
+                  DataType="http://www.w3.org/2001/XMLSchema#string"
+                  Category="urn:oasis:names:tc:xacml:3.0:attribute-category:action"
+                  MustBePresent="false"/>
+            </Match>
+          </AllOf>
+        </AnyOf>
+      </Target>
+      <Rule Effect="Permit"
+        RuleId="urn:fabric:authz:xacml:ProjectExample1:ProjectDeleteByLeadRule">
+        <Description>
+          Project leads can delete their own projects.
+        </Description>
+        <Target/>
+        <Condition>
+            <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:and">
+              <Apply FunctionId="urn:oasis:names:tc:xacml:3.0:function:any-of-any">
+                <Function FunctionId="urn:oasis:names:tc:xacml:1.0:function:string-equal"/>
+                <AttributeDesignator
+                  AttributeId="urn:fabric:xacml:attributes:fabric-role"
+                  DataType="http://www.w3.org/2001/XMLSchema#string"
+                  Category="urn:oasis:names:tc:xacml:1.0:subject-category:access-subject"
+                  MustBePresent="true"
+                />
+                <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:string-bag">
+                  <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">projectLead</AttributeValue>
+                </Apply>
+              </Apply>
+              <Apply FunctionId="urn:oasis:names:tc:xacml:3.0:function:any-of-any">
+                <Function FunctionId="urn:oasis:names:tc:xacml:1.0:function:string-equal"/>
+                <AttributeDesignator
+                  AttributeId="urn:oasis:names:tc:xacml:1.0:subject:subject-id"
+                  DataType="http://www.w3.org/2001/XMLSchema#string"
+                  Category="urn:oasis:names:tc:xacml:1.0:subject-category:access-subject"
+                  MustBePresent="true"
+                />
+                <AttributeDesignator
+                  AttributeId="urn:fabric:xacml:attributes:resource-creator"
+                  DataType="http://www.w3.org/2001/XMLSchema#string"
+                  Category="urn:oasis:names:tc:xacml:3.0:attribute-category:resource"
+                  MustBePresent="true"
+                />
+              </Apply>
+            </Apply>
+        </Condition>
+      </Rule>
+      <Rule Effect="Permit"
+        RuleId="urn:fabric:authz:xacml:ProjectExample1:ProjectDeleteByOperatorRule">
+        <Description>
+          Facility operator can delete any project.
+        </Description>
+        <Target/>
+        <Condition>
+          <Apply FunctionId="urn:oasis:names:tc:xacml:3.0:function:any-of-any">
+            <Function FunctionId="urn:oasis:names:tc:xacml:1.0:function:string-equal"/>
+            <AttributeDesignator
+              AttributeId="urn:fabric:xacml:attributes:fabric-role"
+              DataType="http://www.w3.org/2001/XMLSchema#string"
+              Category="urn:oasis:names:tc:xacml:1.0:subject-category:access-subject"
+              MustBePresent="true"
+            />
+            <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:string-bag">
+              <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">facilityOperator</AttributeValue>
+            </Apply>
+          </Apply>
+        </Condition>
+      </Rule>
+      <AdviceExpressions>
+        <AdviceExpression AdviceId="urn:fabric:authz:advice:deny-error" AppliesTo="Deny">
+          <AttributeAssignmentExpression AttributeId="urn:fabric:authz:attribute:pep-message">
+            <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">Facility leads can delete only projects they created.</AttributeValue>
+          </AttributeAssignmentExpression>
+        </AdviceExpression>
+      </AdviceExpressions>
+    </Policy>
+    <!-- manage owners -->
+    <Policy
+      PolicyId="urn:fabric:authz:xacml:ProjectExamle1:ManageProjectOwners"
+      RuleCombiningAlgId="urn:oasis:names:tc:xacml:3.0:rule-combining-algorithm:deny-unless-permit"
+      Version="1.0">
+      <Description>
+        Project owner management.
+      </Description>
+      <Target>
+        <AnyOf>
+          <AllOf>
+            <Match MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+              <AttributeValue
+                  DataType="http://www.w3.org/2001/XMLSchema#string">addOwner</AttributeValue>
+              <AttributeDesignator
+                  AttributeId="urn:oasis:names:tc:xacml:1.0:action:action-id"
+                  DataType="http://www.w3.org/2001/XMLSchema#string"
+                  Category="urn:oasis:names:tc:xacml:3.0:attribute-category:action"
+                  MustBePresent="false"/>
+            </Match>
+          </AllOf>
+          <AllOf>
+            <Match MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+              <AttributeValue
+                  DataType="http://www.w3.org/2001/XMLSchema#string">removeOwner</AttributeValue>
+              <AttributeDesignator
+                  AttributeId="urn:oasis:names:tc:xacml:1.0:action:action-id"
+                  DataType="http://www.w3.org/2001/XMLSchema#string"
+                  Category="urn:oasis:names:tc:xacml:3.0:attribute-category:action"
+                  MustBePresent="false"/>
+            </Match>
+          </AllOf>
+        </AnyOf>
+      </Target>
+      <Rule Effect="Permit"
+        RuleId="urn:fabric:authz:xacml:ProjectExample1:ManageProjectOwnerbyLeadRule">
+        <Description>
+          Project Lead can add and remove owners of her project.
+        </Description>
+        <Target/>
+        <Condition>
+          <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:and">
+            <Apply FunctionId="urn:oasis:names:tc:xacml:3.0:function:any-of-any">
+              <Function FunctionId="urn:oasis:names:tc:xacml:1.0:function:string-equal"/>
+              <AttributeDesignator
+                AttributeId="urn:fabric:xacml:attributes:fabric-role"
+                DataType="http://www.w3.org/2001/XMLSchema#string"
+                Category="urn:oasis:names:tc:xacml:1.0:subject-category:access-subject"
+                MustBePresent="true"
+              />
+              <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:string-bag">
+                <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">projectLead</AttributeValue>
+              </Apply>
+            </Apply>
+            <Apply FunctionId="urn:oasis:names:tc:xacml:3.0:function:any-of-any">
+              <Function FunctionId="urn:oasis:names:tc:xacml:1.0:function:string-equal"/>
+              <AttributeDesignator
+                AttributeId="urn:oasis:names:tc:xacml:1.0:subject:subject-id"
+                DataType="http://www.w3.org/2001/XMLSchema#string"
+                Category="urn:oasis:names:tc:xacml:1.0:subject-category:access-subject"
+                MustBePresent="true"
+              />
+              <AttributeDesignator
+                AttributeId="urn:fabric:xacml:attributes:resource-creator"
+                DataType="http://www.w3.org/2001/XMLSchema#string"
+                Category="urn:oasis:names:tc:xacml:3.0:attribute-category:resource"
+                MustBePresent="true"
+              />
+            </Apply>
+          </Apply>
+        </Condition>
+      </Rule>
+      <Rule Effect="Permit"
+        RuleId="urn:fabric:authz:xacml:ProjectExample1:ManageProjectOwnerByOperatorRule">
+        <Description>
+          Facility Operator can add remove owners of any project.
+        </Description>
+        <Target/>
+        <Condition>
+          <Apply FunctionId="urn:oasis:names:tc:xacml:3.0:function:any-of-any">
+            <Function FunctionId="urn:oasis:names:tc:xacml:1.0:function:string-equal"/>
+            <AttributeDesignator
+              AttributeId="urn:fabric:xacml:attributes:fabric-role"
+              DataType="http://www.w3.org/2001/XMLSchema#string"
+              Category="urn:oasis:names:tc:xacml:1.0:subject-category:access-subject"
+              MustBePresent="true"
+            />
+            <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:string-bag">
+              <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">facilityOperator</AttributeValue>
+            </Apply>
+          </Apply>
+        </Condition>
+      </Rule>
+      <AdviceExpressions>
+        <AdviceExpression AdviceId="urn:fabric:authz:advice:deny-error" AppliesTo="Deny">
+          <AttributeAssignmentExpression AttributeId="urn:fabric:authz:attribute:pep-message">
+            <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">Only project leads and facility operators can change project owners.</AttributeValue>
+          </AttributeAssignmentExpression>
+        </AdviceExpression>
+      </AdviceExpressions>
+    </Policy>
+    <!-- manage members -->
+    <Policy PolicyId="urn:fabric:authz:xacml:ProjectExamle1:ManageProjectMembers"
+    RuleCombiningAlgId="urn:oasis:names:tc:xacml:3.0:rule-combining-algorithm:deny-unless-permit"
+    Version="1.0">
+    <Description>
+      Project member management.
+    </Description>
+    <Target>
+      <AnyOf>
+        <AllOf>
+          <Match MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+            <AttributeValue
+                DataType="http://www.w3.org/2001/XMLSchema#string">addMember</AttributeValue>
+            <AttributeDesignator
+                AttributeId="urn:oasis:names:tc:xacml:1.0:action:action-id"
+                DataType="http://www.w3.org/2001/XMLSchema#string"
+                Category="urn:oasis:names:tc:xacml:3.0:attribute-category:action"
+                MustBePresent="false"/>
+          </Match>
+        </AllOf>
+        <AllOf>
+          <Match MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+            <AttributeValue
+                DataType="http://www.w3.org/2001/XMLSchema#string">removeMember</AttributeValue>
+            <AttributeDesignator
+                AttributeId="urn:oasis:names:tc:xacml:1.0:action:action-id"
+                DataType="http://www.w3.org/2001/XMLSchema#string"
+                Category="urn:oasis:names:tc:xacml:3.0:attribute-category:action"
+                MustBePresent="false"/>
+          </Match>
+        </AllOf>
+      </AnyOf>
+    </Target>
+    <Rule Effect="Permit"
+      RuleId="urn:fabric:authz:xacml:ProjectExample1:ManageProjectMemberByOwnerOrLeadRule">
+      <Description>
+        Project Owner or Project Lead can add and remove owners of her project (implemented via concat).
+      </Description>
+      <Target/>
+      <Condition>
+        <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:or">
+          <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:and">
+            <Apply FunctionId="urn:oasis:names:tc:xacml:3.0:function:any-of-any">
+              <Function FunctionId="urn:oasis:names:tc:xacml:1.0:function:string-equal"/>
+              <AttributeDesignator
+                AttributeId="urn:fabric:xacml:attributes:fabric-role"
+                DataType="http://www.w3.org/2001/XMLSchema#string"
+                Category="urn:oasis:names:tc:xacml:1.0:subject-category:access-subject"
+                MustBePresent="true"
+              />
+              <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:string-bag">
+                <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">projectLead</AttributeValue>
+              </Apply>
+            </Apply>
+            <Apply FunctionId="urn:oasis:names:tc:xacml:3.0:function:any-of-any">
+              <Function FunctionId="urn:oasis:names:tc:xacml:1.0:function:string-equal"/>
+              <AttributeDesignator
+                AttributeId="urn:oasis:names:tc:xacml:1.0:subject:subject-id"
+                DataType="http://www.w3.org/2001/XMLSchema#string"
+                Category="urn:oasis:names:tc:xacml:1.0:subject-category:access-subject"
+                MustBePresent="true"
+              />
+              <AttributeDesignator
+                AttributeId="urn:fabric:xacml:attributes:resource-creator"
+                DataType="http://www.w3.org/2001/XMLSchema#string"
+                Category="urn:oasis:names:tc:xacml:3.0:attribute-category:resource"
+                MustBePresent="true"
+              />
+            </Apply>
+          </Apply>
+          <Apply FunctionId="urn:oasis:names:tc:xacml:3.0:function:any-of-any">
+            <Function FunctionId="urn:oasis:names:tc:xacml:1.0:function:string-equal"/>
+            <AttributeDesignator
+              AttributeId="urn:fabric:xacml:attributes:fabric-role"
+              DataType="http://www.w3.org/2001/XMLSchema#string"
+              Category="urn:oasis:names:tc:xacml:1.0:subject-category:access-subject"
+              MustBePresent="true"
+            />
+            <Apply FunctionId="urn:oasis:names:tc:xacml:3.0:function:map">
+              <Function FunctionId="urn:oasis:names:tc:xacml:2.0:function:string-concatenate"/>
+              <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">projectOwner:</AttributeValue>
+              <AttributeDesignator
+                AttributeId="urn:oasis:names:tc:xacml:1.0:resource:resource-id"
+                DataType="http://www.w3.org/2001/XMLSchema#string"
+                Category="urn:oasis:names:tc:xacml:3.0:attribute-category:resource"
+                MustBePresent="false"/>
+            </Apply>
+          </Apply>
+          <Apply FunctionId="urn:oasis:names:tc:xacml:3.0:function:any-of-any">
+            <Function FunctionId="urn:oasis:names:tc:xacml:1.0:function:string-equal"/>
+            <AttributeDesignator
+              AttributeId="urn:fabric:xacml:attributes:fabric-role"
+              DataType="http://www.w3.org/2001/XMLSchema#string"
+              Category="urn:oasis:names:tc:xacml:1.0:subject-category:access-subject"
+              MustBePresent="true"
+            />
+            <Apply FunctionId="urn:oasis:names:tc:xacml:1.0:function:string-bag">
+              <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">facilityOperator</AttributeValue>
+            </Apply>
+          </Apply>
+        </Apply>
+      </Condition>
+    </Rule>
+    <AdviceExpressions>
+      <AdviceExpression AdviceId="urn:fabric:authz:advice:deny-error" AppliesTo="Deny">
+        <AttributeAssignmentExpression AttributeId="urn:fabric:authz:attribute:pep-message">
+          <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">Only project owners and facility operators can change project membership.</AttributeValue>
+        </AttributeAssignmentExpression>
+      </AdviceExpression>
+    </AdviceExpressions>
+    </Policy>
+  </PolicySet>
