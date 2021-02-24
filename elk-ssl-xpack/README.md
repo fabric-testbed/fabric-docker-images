@@ -169,9 +169,9 @@ chmod 664 logstash.pkcs8.key
 exit
 ```
 
-## 6.3 Update `logstash.conf` file
+## 6.3 Update `logstash.yml` file
 
-Change password of `xpack.monitoring.elasticsearch.password` in the `logstash/config/logstash.conf` file. The password has been automatically generated in the previous step.
+Change password of `xpack.monitoring.elasticsearch.password` in the `logstash/config/logstash.yml` file. The password has been automatically generated in the previous step.
 
 ```bash
 xpack.monitoring.elasticsearch.username: logstash_system
