@@ -28,10 +28,25 @@ docker build -t netctrl-devops .
 
 ### How to run
 
+#### Ansible scripts
+
 ```
 git clone git@github.com:fabric-testbed/NetworkController
 docker run -ti -v $(pwd)/NetworkController:/NetworkController netctrl-devops bash
 cd NetworkController/devices-config/ansible
 ansible-playbook -v -i inventory/fabric-cisco-dev.py sync-from.yaml
 ...
+```
+
+#### ManagementCLI
+
+At the bottom of the ManagementCli config.yml is a block for the NSO
+connection details. With these parameters set, we can run the included
+`fabric-mgmt-cli` tool from within the conatiner and make use of the
+"net" commands.
+
+For example, list NSO devices:
+
+```
+docker run -ti --rm -e FABRIC_MGMT_CLI_CONFIG_PATH=/etc/config.yml -v /opt/ManagementCli/config-test.yml:/etc/config.yml netctrl-devops fabric-mgmt-cli net show devices
 ```
