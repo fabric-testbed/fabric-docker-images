@@ -1,11 +1,18 @@
 #!/bin/bash
 
+VERSION=5.5
+RUNDIR=/opt/nso-dev
+LOGDIR=/opt/nso-dev-logs
+
+[[ ! -f "${RUNDIR}" ]] && sudo mkdir -p "${RUNDIR}"
+[[ ! -f "${LOGDIR}" ]] && sudo mkdir -p "${LOGDIR}"
+
 docker run -tid --name nso-dev \
-	--net host \
+	-p 2232:2222 \
 	-e SSH_PORT=2222 \
 	-e ADMIN_USERNAME=admin \
 	-e ADMIN_PASSWORD=<passwd> \
 	-e HTTPS_ENABLE=true \
-        -v /opt/nso-dev:/nso \
-        -v /opt/nso-dev-logs:/log \
-	cisco-nso-dev:5.3-root /run-nso.sh
+        -v ${RUNDIR}:/nso \
+        -v ${LOGDIR}:/log \
+	cisco-nso-dev:${VERSION} /run-nso.sh
