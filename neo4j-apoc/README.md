@@ -1,6 +1,7 @@
 ### Versions available:
 
-Available in this repo:
+Available in this repo (and via [FABRIC Docker Hub](https://hub.docker.com/repository/docker/fabrictestbed/neo4j-apoc)):
+- 4.1.6, (APOC 4.1.0.10, GDS 1.5.0) latest: ([Dockerfile](4.1.6/))
 - 4.0.3, (APOC 4.0.0.10, GDS 1.2.1) latest: ([Dockerfile](4.0.3/))
 
 Available from RENCI-NRIG/impact-docker-images:

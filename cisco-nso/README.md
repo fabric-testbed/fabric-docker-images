@@ -11,17 +11,41 @@ Cisco's Network Services Orchestrater.  FABRIC will be investigating the use of 
 
 ### Prerequisites
 
+* Docker
 * NSO installer bin from Cisco DevNet
 * IOS XR NED from Cisco DevNet
 
+### Preparing system (e.g. FABRIC VM)
+
+Follow instruction for docker-ce install for Centos 8:
+* https://docs.docker.com/engine/install/centos/
+
+Install some needed dependencies:
+```
+sudo yum install git git-lfs make
+```
+
 ### Building
 
+Acquire NSO install and NCS IOSXR NED from NetworkController repository.
+
 ```
+git clone git@github.com:fabric-testbed/NetworkController
+git clone git@github.com:fabric-testbed/fabric-docker-images
+cd NetworkController/nso
+git lfs pull
+sh nso-5.5.linux.x86_64.signed.bin
+```
+
+The last step extracts the NSO installer executable.
+
+```
+cd fabric-docker-images/cisco-nso
 git submodule init
 git submodule update
-cd nso-docker
 cp <path to NSO installer bin> nso-docker/nso-install-files
 make
+make NSO_VERSION=5.5 tag-release
 ```
 
 This will generate `cisco-nso-dev` and `cisco-nso-base` docker images.
@@ -36,6 +60,8 @@ mkdir /opt/nso-dev
 mkdir /opt/nso-dev-logs
 sudo ./start-dev.sh
 ```
+
+The `run-prod.sh` script can be used to deploy a production NSO instance.  Edit script as appropriate for deployment.
 
 ### Adding a new NED (package)
 

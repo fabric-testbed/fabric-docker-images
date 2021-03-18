@@ -16,5 +16,10 @@ RUN tar -xf $MODFILE
 RUN pip3 install ./models
 RUN pip3 install requests pyangbind
 
+RUN git clone https://github.com/fabric-testbed/ControlFramework
+RUN cd ControlFramework && pip3 install . && cd ..
+RUN git clone -b netctrl https://github.com/fabric-testbed/ManagementCli
+RUN cd ManagementCli && pip3 install . && cd ..
+
 # cleanup
-RUN rm $MODFILE
+RUN rm -rf $MODFILE ControlFramework ManagementCli

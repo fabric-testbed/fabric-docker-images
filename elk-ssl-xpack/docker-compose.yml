@@ -1,4 +1,4 @@
-version: '2.2'
+version: "2.2"
 
 services:
   es01:
@@ -13,15 +13,19 @@ services:
       - "ES_JAVA_OPTS=-Xms4g -Xmx4g"
       - xpack.license.self_generated.type=basic
       - xpack.security.enabled=true
-      - xpack.security.http.ssl.enabled=true 
+      - xpack.security.http.ssl.enabled=true
       - xpack.security.http.ssl.key=$CERTS_DIR/es01/es01.key
       - xpack.security.http.ssl.certificate_authorities=$CERTS_DIR/ca/ca.crt
       - xpack.security.http.ssl.certificate=$CERTS_DIR/es01/es01.crt
-      - xpack.security.transport.ssl.enabled=true 
-      - xpack.security.transport.ssl.verification_mode=certificate 
+      - xpack.security.transport.ssl.enabled=true
+      - xpack.security.transport.ssl.verification_mode=certificate
       - xpack.security.transport.ssl.certificate_authorities=$CERTS_DIR/ca/ca.crt
       - xpack.security.transport.ssl.certificate=$CERTS_DIR/es01/es01.crt
       - xpack.security.transport.ssl.key=$CERTS_DIR/es01/es01.key
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "1024m"
     ulimits:
       memlock:
         soft: -1
@@ -64,6 +68,10 @@ services:
       - xpack.security.transport.ssl.certificate_authorities=$CERTS_DIR/ca/ca.crt
       - xpack.security.transport.ssl.certificate=$CERTS_DIR/es02/es02.crt
       - xpack.security.transport.ssl.key=$CERTS_DIR/es02/es02.key
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "1024m"
     ulimits:
       memlock:
         soft: -1
@@ -98,6 +106,10 @@ services:
       - xpack.security.transport.ssl.certificate_authorities=$CERTS_DIR/ca/ca.crt
       - xpack.security.transport.ssl.certificate=$CERTS_DIR/es03/es03.crt
       - xpack.security.transport.ssl.key=$CERTS_DIR/es03/es03.key
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "1024m"
     ulimits:
       memlock:
         soft: -1
@@ -114,7 +126,7 @@ services:
   kib01:
     image: docker.elastic.co/kibana/kibana:${VERSION}
     container_name: kib01
-    depends_on: {"es01": {"condition": "service_healthy"}}
+    depends_on: { "es01": { "condition": "service_healthy" } }
     ports:
       - 5601:5601
     environment:
@@ -128,6 +140,10 @@ services:
       SERVER_SSL_KEY: $CERTS_DIR/kib01/kib01.key
       SERVER_SSL_CERTIFICATE: $CERTS_DIR/kib01/kib01.crt
       XPACK_ENCRYPTEDSAVEDOBJECTS_ENCRYPTIONKEY: xnilrntbhalomcfkdblaukcoyyjjyfdf
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "1024m"
     volumes:
       - certs:$CERTS_DIR
     networks:
@@ -144,11 +160,15 @@ services:
       - ./logstash/config/logstash.yml:/usr/share/logstash/config/logstash.yml
       - ./logstash/pipeline:/usr/share/logstash/pipeline
       - certs:$CERTS_DIR
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "1024m"
     networks:
       - elastic
 
   ubuntu:
-    build: 
+    build:
       context: ubuntu/
     container_name: ubuntu
     volumes:
@@ -160,14 +180,18 @@ services:
     image: nginx:alpine
     container_name: nginx
     volumes:
-      - '/certs/your.hostname.com.cer:/etc/nginx/certs/your.hostname.com.cer'
-      - '/certs/your.hostname.com.key:/etc/nginx/certs/your.hostname.com.key'
-      - './nginx/etc/nginx.conf:/etc/nginx/nginx.conf:ro'
+      - "/certs/your.hostname.com.cer:/etc/nginx/certs/your.hostname.com.cer"
+      - "/certs/your.hostname.com.key:/etc/nginx/certs/your.hostname.com.key"
+      - "./nginx/etc/nginx.conf:/etc/nginx/nginx.conf:ro"
     links:
       - es01
       - es02
       - es03
       - kib01
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "1024m"
     depends_on:
       - es01
       - es02

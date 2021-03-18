@@ -1,3 +1,3 @@
 [submodule "cisco-nso/5.3/nso-docker"]
-	path = cisco-nso/5.3/nso-docker
+	path = cisco-nso/5.x/nso-docker
 	url = https://github.com/NSO-developer/nso-docker.git
