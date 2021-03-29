@@ -1,4 +1,4 @@
-version: '3'
+version: "3"
 services:
   es01:
     image: docker.elastic.co/elasticsearch/elasticsearch:${ELK_VERSION}
@@ -11,11 +11,15 @@ services:
       - discovery.seed_hosts=es02,es03
       - cluster.initial_master_nodes=es01,es02,es03
       - bootstrap.memory_lock=true
-      - "ES_JAVA_OPTS=-Xmx256m -Xms256m"
+      - "ES_JAVA_OPTS=-Xmx1g -Xms1g"
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "1024m"
     ulimits:
       memlock:
-        soft:  -1
-        hard:  -1
+        soft: -1
+        hard: -1
     volumes:
       - data01:/usr/share/elasticsearch/data
     networks:
@@ -32,11 +36,15 @@ services:
       - discovery.seed_hosts=es01,es03
       - cluster.initial_master_nodes=es01,es02,es03
       - bootstrap.memory_lock=true
-      - "ES_JAVA_OPTS=-Xmx256m -Xms256m"
+      - "ES_JAVA_OPTS=-Xmx1g -Xms1g"
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "1024m"
     ulimits:
       memlock:
-        soft:  -1
-        hard:  -1
+        soft: -1
+        hard: -1
     volumes:
       - data02:/usr/share/elasticsearch/data
     networks:
@@ -53,11 +61,15 @@ services:
       - discovery.seed_hosts=es01,es02
       - cluster.initial_master_nodes=es01,es02,es03
       - bootstrap.memory_lock=true
-      - "ES_JAVA_OPTS=-Xmx256m -Xms256m"
+      - "ES_JAVA_OPTS=-Xmx1g -Xms1g"
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "1024m"
     ulimits:
       memlock:
-        soft:  -1
-        hard:  -1
+        soft: -1
+        hard: -1
     volumes:
       - data03:/usr/share/elasticsearch/data
     networks:
@@ -69,8 +81,12 @@ services:
     volumes:
       - ./logstash/config/logstash.yml:/usr/share/logstash/config/logstash.yml
       - ./logstash/pipeline:/usr/share/logstash/pipeline
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "1024m"
     environment:
-      - "ES_JAVA_OPTS=-Xmx256m -Xms256m"
+      - "ES_JAVA_OPTS=-Xmx1g -Xms1g"
     ports:
       - "5000:5000"
     networks:
@@ -81,6 +97,10 @@ services:
     container_name: kibana
     ports:
       - "5601:5601"
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "1024m"
     environment:
       ELASTICSEARCH_URL: http://es01:9200
       ELASTICSEARCH_HOSTS: http://es01:9200
@@ -91,9 +111,9 @@ services:
     image: nginx:alpine
     container_name: nginx
     volumes:
-      - './nginx/etc/nginx.conf:/etc/nginx/nginx.conf:ro'
-      - './nginx/public:/usr/share/nginx/html:ro'
-      - './nginx/etc/.htpasswd.user:/etc/nginx/.htpasswd.user:ro'
+      - "./nginx/etc/nginx.conf:/etc/nginx/nginx.conf:ro"
+      - "./nginx/public:/usr/share/nginx/html:ro"
+      - "./nginx/etc/.htpasswd.user:/etc/nginx/.htpasswd.user:ro"
     links:
       - es01
       - es02
@@ -105,7 +125,7 @@ services:
       - es03
       - kibana
     ports:
-      - '80:80'
+      - "80:80"
     networks:
       - elk
 
