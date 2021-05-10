@@ -1,11 +1,13 @@
 # Using Docker to deploy Elastic Stack (ES)
+
 This document shows how to deploy each part (**Elasticsearch, Logstash, Kibana and Filebeat**) of **Elastic Stack (ES)** and **Nginx** using Docker and Docker-compose.
 
-This has been tested with **CentOS Linux release 7.5.1804 (Core)** and **Ubuntu 20.04 LTS**. 
+This has been tested with **CentOS Linux release 7.5.1804 (Core)** and **Ubuntu 20.04 LTS**.
 
 &nbsp;
 
 # What is Elastic Stack (ES or ELK)?
+
 - "ELK" is the acronym for three open source projects: Elasticsearch, Logstash, and Kibana. Elasticsearch is a search and analytics engine. Logstash is a server‑side data processing pipeline that ingests data from multiple sources simultaneously, transforms it, and then sends it to a "stash" like Elasticsearch. Kibana lets users visualize data with charts and graphs in Elasticsearch. The Elastic Stack is the next evolution of the ELK Stack.
 - Official website: https://www.elastic.co/
 
@@ -15,7 +17,8 @@ This has been tested with **CentOS Linux release 7.5.1804 (Core)** and **Ubuntu 
 
 > Install Docker CE and Docker-Compose if you do not have. [Link to instructions](/README.md)
 
-## 1.1 Git clone 
+## 1.1 Git clone
+
 ```bash
 git clone https://github.com/fabric-testbed/fabric-docker-images.git
 ```
@@ -25,12 +28,12 @@ git clone https://github.com/fabric-testbed/fabric-docker-images.git
 Run **./setfolder.sh** to create folders that are needed to bind with docker containers.
 
 ```bash
-sudo ./setfolder.sh
+./setfolder.sh
 ```
 
 ## 1.3 Change settings for your environment
 
-1. Change ES version if you want other version. The default is **7.8.0**. You can change it from **elk/.env** file.
+1. Change ES version if you want other version. The default is **7.11.0**. You can change it from **elk/.env** file.
 2. Set IP address in the Nginx configuration. You can change **'server_name'** at **elk/nginx/etc/nginx.conf** file.
 
 ## 1.4 Increase max_map_count on Docker host
@@ -48,11 +51,13 @@ sudo sysctl -w vm.max_map_count=262144
 > You can change **fabricadmin** to something else as you want.
 
 **CentOS**
+
 ```bash
 sudo yum install -y httpd-tools
 ```
 
 **Ubuntu**
+
 ```bash
 sudo apt-get install apache2-utils
 ```
@@ -119,7 +124,7 @@ $ curl http://127.0.0.1:9200/
 
 This section shows how to build and run the **Logstash** container using docker-compose.
 
-### 1. Run Elasticsearch container 
+### 1. Run Elasticsearch container
 
 Run the Logstash to check if it works.
 
@@ -145,7 +150,7 @@ docker-compose ps -a
 
 This section shows how to build and run the **Kibana** container using docker-compose.
 
-### 1. Run Kibana container 
+### 1. Run Kibana container
 
 ```bash
 docker-compose up -d kibana
@@ -165,7 +170,6 @@ docker-compose ps -a
 
 This section shows how to build and run the **Nginx** container using docker-compose. **Nginx** can be used as a reverse proxy for Kibana.
 
-
 ### 1. Run Nginx container
 
 ```bash
@@ -181,17 +185,18 @@ docker-compose ps -a
 ### 3. Check if the Elastic Stack works by accessing **http://Your_IP_ADDRESS**
 
 You can enter **'fabricadmin'** as user id and put your password you created.
-  
+
 &nbsp;
 
 # 6. Setting up Filebeat on a remote host
+
 This section shows how to install **Filebeat** and run on a remote VM or host.
 
 > Reference: [Install Filebeat - Elastic.co](https://www.elastic.co/guide/en/beats/filebeat/current/filebeat-installation.html)
 
 ### 1. Download Filebeat using curl and install
 
-> Try to use same version of Filebeat that you used for installing ES stack. 
+> Try to use same version of Filebeat that you used for installing ES stack.
 
 ```bash
 curl -L -O https://artifacts.elastic.co/downloads/beats/filebeat/filebeat-7.6.2-x86_64.rpm
@@ -250,8 +255,9 @@ docker-compose logs -f es01 es02 es03
 &nbsp;
 
 # 8. Reference
-- elasticsearch docker hub: [https://hub.docker.com/_/elasticsearch](https://hub.docker.com/_/elasticsearch)
-- logstash docker hub: [https://hub.docker.com/_/logstash](https://hub.docker.com/_/logstash)
-- kibana docker hub: [https://hub.docker.com/_/kibana](https://hub.docker.com/_/kibana)
+
+- elasticsearch docker hub: [https://hub.docker.com/\_/elasticsearch](https://hub.docker.com/_/elasticsearch)
+- logstash docker hub: [https://hub.docker.com/\_/logstash](https://hub.docker.com/_/logstash)
+- kibana docker hub: [https://hub.docker.com/\_/kibana](https://hub.docker.com/_/kibana)
 - [Run Filebeat on Docker](https://www.elastic.co/guide/en/beats/filebeat/current/running-on-docker.html)
 - [Filebeat Modules](https://www.elastic.co/guide/en/beats/filebeat/6.8/filebeat-modules.html)

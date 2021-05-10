@@ -24,7 +24,7 @@ Please see the Pre-requirements at the bottom of this file for useful informatio
 
 ---
 
-## [Neo4j/APOC/GDS](neo4j)
+## [Neo4j/APOC/GDS](neo4j-apoc)
 
 What is Neo4j?
 

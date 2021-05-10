@@ -3,6 +3,7 @@
 ## Versions Available
 
 - [3.0.0](3.0.0/README.md)
+- [3.1.0](3.0.0/README.md)
 
 ## What is this?
 
