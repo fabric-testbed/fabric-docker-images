@@ -17,4 +17,8 @@ docker run -d --name nso-prod \
 	-v ${RUNDIR}:/nso \
 	-v ${LOGDIR}:/log \
 	-v ${RUNDIR}/packages:/var/opt/ncs/packages \
+	-v /etc/nso/ncs.conf:/etc/ncs/ncs.conf \
+        -v /etc/nso/netam_fabric-testbed_net_cert.cer:/nso/ssl/cert/host.cert \
+        -v /etc/nso/netam_fabric-testbed_net.key:/nso/ssl/cert/host.key \
+	-v /etc/nso/netam_fabric-testbed_net.pem:/nso/ssl/cert/CAcert.pem \
 	cisco-nso-base:${VERSION} /run-nso.sh

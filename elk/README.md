@@ -28,7 +28,7 @@ git clone https://github.com/fabric-testbed/fabric-docker-images.git
 Run **./setfolder.sh** to create folders that are needed to bind with docker containers.
 
 ```bash
-./setfolder.sh
+./setfolders.sh
 ```
 
 ## 1.3 Change settings for your environment
