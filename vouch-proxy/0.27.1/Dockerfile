@@ -32,3 +32,4 @@ COPY --from=builder /go/bin/vouch-proxy /vouch-proxy
 EXPOSE 9090
 ENTRYPOINT ["/vouch-proxy"]
 HEALTHCHECK --interval=1m --timeout=5s CMD [ "/vouch-proxy", "-healthcheck" ]
+
