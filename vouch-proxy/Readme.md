@@ -9,7 +9,7 @@ This is a FABRIC specific image which allows refresh tokens to be passed in the 
 Below is an example of docker-compose which allows creating vouch proxy:
 ```
    vouch-proxy:
-     container_name: cm-vouch-proxy
+     container_name: vouch-proxy
      image: fabrictestbed/vouch-proxy:0.27.1
      volumes:
        - ./vouch:/config
