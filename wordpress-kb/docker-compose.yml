@@ -1,0 +1,43 @@
+version: '3.8'
+services:
+
+  db:
+    image: mysql:8.0
+    container_name: db-kb
+    restart: unless-stopped
+    command: '--default-authentication-plugin=mysql_native_password'
+    env_file: .env
+    environment:
+      - MYSQL_DATABASE=wordpress
+    volumes:
+      - ./dbdata:/var/lib/mysql
+
+  wordpress:
+    image: wordpress:5-fpm
+    depends_on:
+      - db
+    container_name: wordpress-kb
+    restart: unless-stopped
+    volumes:
+      - ./wordpress:/var/www/html
+      # - /path/to/repo/myTheme/:/var/www/html/wp-content/themes/myTheme
+    env_file: .env
+    environment:
+      - WORDPRESS_DB_HOST=db:3306
+      - WORDPRESS_DB_USER=$MYSQL_USER
+      - WORDPRESS_DB_PASSWORD=$MYSQL_PASSWORD
+      - WORDPRESS_DB_NAME=wordpress
+
+  webserver:
+    depends_on:
+      - wordpress
+    image: nginx:1.15.12-alpine
+    container_name: nginx-kb
+    restart: unless-stopped
+    ports:
+      - "8080:80"
+      - "8443:443"
+    volumes:
+      - ./wordpress:/var/www/html
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+      - ./ssl:/etc/ssl:ro
