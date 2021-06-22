@@ -20,6 +20,7 @@ services:
     restart: unless-stopped
     volumes:
       - ./wordpress:/var/www/html
+      - ./config/uploads.ini:/usr/local/etc/php/conf.d/uploads.ini
       # - /path/to/repo/myTheme/:/var/www/html/wp-content/themes/myTheme
     env_file: .env
     environment:
