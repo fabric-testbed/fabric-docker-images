@@ -1,4 +1,4 @@
-# X-Pack enabled Elastic Stack with Nginx 
+# X-Pack enabled Elastic Stack with Nginx  
 
 This Github document shows how to set up **X-Pack security enabled** ELK stack with **SSL** using Nginx as a reverse proxy. X-Pack enabled ELK stack uses SSL encryption to communicate with other components of ELK stack or clients. It also allows **Role-based user control** that you can manage in the Kibana. Nginx redirects port 80 traffic to port 443. It redirects traffic from port 443 to Kibana port, which is 5601. The Nginx requires **a public CA signed SSL certificate** to avoid privacy warnings. ELK stack sets up its own private CA internally and signs certificates for ELK stack components (Kibana, Logstash, and Elasticsearch).
 
