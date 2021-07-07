@@ -8,7 +8,7 @@ LOGDIR=/opt/nso-dev-logs
 [[ ! -f "${LOGDIR}" ]] && sudo mkdir -p "${LOGDIR}"
 
 docker run -tid --name nso-dev \
-	-p 2232:2222 \
+	--restart unless-stopped \
 	-e SSH_PORT=2222 \
 	-e ADMIN_USERNAME=admin \
 	-e ADMIN_PASSWORD=<passwd> \
