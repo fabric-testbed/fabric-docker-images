@@ -1,5 +1,5 @@
 # Dockerfile for NetworkController DevOps
-FROM python:3.8
+FROM python:3.9
 MAINTAINER Ezra Kissel <kissel@es.net>
 LABEL maintainer="kissel@es.net"
 
@@ -18,7 +18,7 @@ RUN pip3 install requests pyangbind
 
 RUN git clone https://github.com/fabric-testbed/ControlFramework
 RUN cd ControlFramework && pip3 install . && cd ..
-RUN git clone -b netctrl https://github.com/fabric-testbed/ManagementCli
+RUN git clone https://github.com/fabric-testbed/ManagementCli
 RUN cd ManagementCli && pip3 install . && cd ..
 
 # cleanup
