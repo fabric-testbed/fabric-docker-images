@@ -12,7 +12,7 @@ RUN jupyter labextension install transient-display-data
 RUN jupyter labextension install jupyterlab-sos
 RUN jupyter labextension install @jupyter-widgets/jupyterlab-manager
 RUN jupyter labextension install jupyter-matplotlib
-RUN python3 -m pip install paramiko jupyterplot ipyleaflet ipywidgets
+RUN python3 -m pip install paramiko jupyterplot ipyleaflet ipywidgets ipycanvas
 # Install FABRIC CLI
 RUN python3 -m pip install fabrictestbed==1.0rc1
 RUN echo 'eval "$(_FABRIC_CLI_COMPLETE=source_bash fabric-cli)"' >> ~/.bashrc
