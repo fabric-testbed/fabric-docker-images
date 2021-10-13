@@ -50,6 +50,16 @@ make NSO_VERSION=5.5 tag-release
 
 This will generate `cisco-nso-dev` and `cisco-nso-base` docker images.
 
+### Configuration
+
+`ncs.conf` in the version subdirectory contains a custom configuration for NSO that will be mounted inside the container. This configuration works for FABRIC as currently defined in the repository but can be customized based on any specific deployment requirements.
+
+A key aspect of the config is specifying the SSL certificate and key for the instance, see the `ssl` block. For a new NSO VM/host, a certificate will need to be provided or else a self-signed certificate will be generated and used by the NSO service.
+
+Request a new certificate for the deployment host as described here: https://fabric-testbed.atlassian.net/wiki/spaces/FP/pages/383320076/Public+Certificates+for+FABRIC+Services
+
+Place the resulting files (cert, key, CA chain) into `/etc/nso` and as defined in `ncs.conf`
+
 
 ### How to run
 
