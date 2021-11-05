@@ -1,5 +1,7 @@
 FROM ubuntu:20.04
 
+ARG DEBIAN_FRONTEND=noninteractive
+ENV TZ=America/New_York
 RUN apt-get update && apt-get -y install \
     cmake \
     g++ \
@@ -29,6 +31,7 @@ RUN apt-get update && apt-get -y install \
     libssl-dev \
     lsb-core \
     sudo \
+    iproute2 \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
@@ -55,7 +58,10 @@ WORKDIR /root
 RUN git clone https://github.com/p4lang/behavioral-model.git
 WORKDIR /root/behavioral-model
 RUN sed -i 's/libssl1.0-dev/libssl-dev/g' install_deps.sh 
-RUN ./install_deps.sh
+RUN apt-get update \
+    && ./install_deps.sh \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
 RUN ./autogen.sh
 RUN ./configure
 RUN make
@@ -68,5 +74,4 @@ WORKDIR /root/simple_p4_router
 COPY simple_router.p4 /root/simple_p4_router
 RUN p4c -b bmv2 simple_router.p4 -o simple_router.bmv2
 
-RUN apt-get install -y iproute2
 WORKDIR /root
