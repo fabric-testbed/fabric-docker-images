@@ -1,34 +1,36 @@
 FROM ubuntu:20.04
 
-RUN apt-get update
-RUN apt-get install -y cmake 
-RUN apt-get install -y g++ 
-RUN apt-get install -y git 
-RUN apt-get install -y automake 
-RUN apt-get install -y libtool 
-RUN apt-get install -y libgc-dev 
-RUN apt-get install -y bison 
-RUN apt-get install -y flex 
-RUN apt-get install -y libfl-dev 
-RUN apt-get install -y libgmp-dev 
-RUN apt-get install -y libboost-dev 
-RUN apt-get install -y libboost-iostreams-dev 
-RUN apt-get install -y libboost-graph-dev 
-RUN apt-get install -y llvm  
-RUN apt-get install -y pkg-config 
-RUN apt-get install -y python 
-RUN apt-get install -y python3-scapy 
-RUN apt-get install -y python3-ipaddr 
-RUN apt-get install -y python-ply 
-RUN apt-get install -y tcpdump 
-RUN apt-get install -y doxygen 
-RUN apt-get install -y graphviz 
-RUN apt-get install -y texlive-full 
-RUN apt-get install -y curl 
-RUN apt-get install -y vim 
-RUN apt-get install -y libssl-dev 
-RUN apt-get install -y lsb-core 
-RUN apt-get install -y sudo 
+RUN apt-get update && apt-get -y install \
+    cmake \
+    g++ \
+    git \
+    automake \
+    libtool \
+    libgc-dev \
+    bison \
+    flex \
+    libfl-dev \
+    libgmp-dev \
+    libboost-dev \
+    libboost-iostreams-dev \
+    libboost-graph-dev \
+    llvm \
+    pkg-config \
+    python \
+    python3-scapy \
+    python3-ipaddr \
+    python-ply \
+    tcpdump \
+    doxygen \
+    graphviz \
+    texlive-full \
+    curl \
+    vim \
+    libssl-dev \
+    lsb-core \
+    sudo \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /root
 RUN git clone https://github.com/protocolbuffers/protobuf.git
