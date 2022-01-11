@@ -43,6 +43,9 @@ RUN chmod 777 /srv/docker-entrypoint.sh
 ENTRYPOINT ["tini", "--", "/srv/docker-entrypoint.sh"]
 CMD ["start-singleuser.sh"]
 
+# Add extra tools
+RUN apt-get install -yq vim 
+
 USER $NEW_NB_USER
 RUN mkdir $HOME/.ssh/
 RUN ssh-keygen -b 2048 -t rsa -f $HOME/.ssh/id_rsa -q -N ""
