@@ -26,8 +26,9 @@ RUN echo 'eval "$(_FABRIC_CLI_COMPLETE=source_bash fabric-cli)"' >> ~/.bashrc
 USER root
 RUN apt-get clean
 RUN apt-get update
+RUN apt-get install -yq vim
 RUN apt-get install -yq openssh-server
-#RUN apt-get install -yq ansible
+#RUN apt-get install -yq ansible 
 #RUN apt-get install -yq rhel-system-roles
 ENV NEW_NB_USER=fabric
 ENV HOME=/home/$NEW_NB_USER
@@ -42,9 +43,6 @@ COPY docker-entrypoint.sh /srv/docker-entrypoint.sh
 RUN chmod 777 /srv/docker-entrypoint.sh
 ENTRYPOINT ["tini", "--", "/srv/docker-entrypoint.sh"]
 CMD ["start-singleuser.sh"]
-
-# Add extra tools
-RUN apt-get install -yq vim 
 
 USER $NEW_NB_USER
 RUN mkdir $HOME/.ssh/
