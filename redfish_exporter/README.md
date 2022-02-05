@@ -3,6 +3,7 @@
 
 This build creates a prometheus exporter that gathers data from redfish running on a rack's head node. The build uses the [jenningsloy318/redfish_exporter](https://github.com/jenningsloy318/redfish_exporter)
 
+The fabric-prometheus system is containerized and run on each rack's head node. Most of the containers just use the standard builds found on DockerHub, however there is not a standard build found for this library.
 This container will be installed in the fabric-prometheus system on the fabric head nodes to gather metrics available from the idrac. To run you will need to pass it a valid config file in the format of:
 
 ```
