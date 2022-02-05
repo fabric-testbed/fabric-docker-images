@@ -3,6 +3,7 @@ FROM docker.io/library/centos:8 AS builder
 LABEL maintainer="Jennings Liu <jenningsloy318@gmail.com>"
 
 ARG ARCH=amd64
+ARG GO_VERSION=1.15.2
 
 ENV GOROOT /usr/local/go
 ENV GOPATH /go
