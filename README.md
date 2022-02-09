@@ -2,7 +2,7 @@
 
 Docker images or related Compose definitions for use with the FABRIC project. All images that are created for the FABRIC project should be thouroughly documented and have publically available images registered in DockerHub ([https://hub.docker.com/orgs/fabrictestbed/repositories](https://hub.docker.com/orgs/fabrictestbed/repositories))
 
-- **NOTE**: initial commit contains only the references to the basic images without any modificaton for FABRIC, which will be assigned at a later date.
+- **NOTE**: initial commit contains only the references to the basic images without any modificaton for FABRIC, which will be assigned at a later date
 
 ## How to Contribute
 
