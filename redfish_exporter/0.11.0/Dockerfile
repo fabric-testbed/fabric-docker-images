@@ -11,7 +11,6 @@ ENV PATH "$GOROOT/bin:$GOPATH/bin:$PATH"
 ENV GO_VERSION 1.15.2
 ENV GO111MODULE=on 
 
-
 RUN sed -i -e "s|mirrorlist=|#mirrorlist=|g" /etc/yum.repos.d/CentOS-*
 RUN sed -i -e "s|#baseurl=http://mirror.centos.org|baseurl=http://vault.centos.org|g" /etc/yum.repos.d/CentOS-*
 
