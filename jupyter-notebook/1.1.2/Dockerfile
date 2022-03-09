@@ -1,7 +1,7 @@
 FROM jupyter/minimal-notebook:python-3.9.2
 ARG JUPYTERHUB_VERSION=1.3.0
 ARG FABRIC_CLI=1.1.4
-ARG FABRIC_CLI_EXT=1.1
+ARG FABRIC_CLI_EXT=1.1.1
 RUN python3 -m pip install --no-cache-dir \
     jupyterhub==$JUPYTERHUB_VERSION
 COPY requirements.txt /tmp/requirements.txt
