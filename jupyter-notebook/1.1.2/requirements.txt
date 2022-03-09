@@ -1,0 +1,8 @@
+bash_kernel
+click >= 7.1.1
+matplotlib==3.3.4
+nbgitpuller
+nbresuse
+sos-bash
+sos-notebook
+sos-python
