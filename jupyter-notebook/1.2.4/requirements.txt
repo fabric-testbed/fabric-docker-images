@@ -1,0 +1,24 @@
+bash_kernel
+click >= 7.1.1
+matplotlib==3.5.1
+nbgitpuller
+nbresuse
+sos-bash
+sos-notebook
+sos-python
+atomicwrites
+gitpython
+fabric_fss_utils==1.2.2
+jupyter_contrib_core
+ipympl
+virtualenvwrapper
+virtualenv
+ansible-kernel
+paramiko 
+jupyterplot 
+ipyleaflet 
+ipywidgets 
+ipycanvas 
+ipycytoscape 
+ipysheet
+jupytext
