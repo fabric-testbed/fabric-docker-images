@@ -23,6 +23,10 @@ if [[ ! -f /conf/application.yml ]]; then
 fi
 
 #exec "${@}"
+# update the pdp.xml file to the new namespace
+if [[ -e /conf/pdp.xml ]]; then
+  sed -e 's_pdp/7_pdp/8_' -e 's_7.1_8.0_' -i /conf/pdp.xml
+fi
 
 
 JAVA_OPTS="-Dloader.path=/extensions -Djava.security.egd=file:/dev/./urandom -Djava.awt.headless=true -Djavax.xml.accessExternalSchema=all -Xms1024m -Xmx2048m -XX:+UseConcMarkSweepGC -server"
