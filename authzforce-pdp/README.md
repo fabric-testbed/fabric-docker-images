@@ -5,6 +5,7 @@
 - [3.0.0](3.0.0/README.md)
 - [3.1.0](3.0.0/README.md)
 - [4.0.1](4.0.1/README.md)
+- [6.0.1](6.0.1/README.md)
 
 ## What is this?
 
