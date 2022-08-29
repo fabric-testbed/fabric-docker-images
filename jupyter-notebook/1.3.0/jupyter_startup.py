@@ -38,7 +38,7 @@ class JupyterStartup:
     DEFAULT_NOTEBOOK_LOCATION = "/home/fabric/work/jupyter-examples"
     DEFAULT_FABRIC_CONFIG_LOCATION = "/home/fabric/work/fabric_config"
     TOKENS_LOCATION = "/home/fabric/.tokens.json"
-    TAGS = "rel1.2"
+    TAGS = "rel1.3"
     REPO_URL = "https://github.com/fabric-testbed/jupyter-examples.git"
     REFRESH_TOKEN = "refresh_token"
     TIME_FORMAT = "%Y-%m-%d %H:%M:%S"
