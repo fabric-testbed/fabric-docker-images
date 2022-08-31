@@ -22,7 +22,7 @@ RUN git clone --branch owl  https://github.com/fabric-testbed/MeasurementFramewo
 #COPY requirements.txt requirements.txt
 #RUN pip3 install -r requirements.txt
 
-RUN mkdir /owl_data
+RUN mkdir /owl_output
 RUN mkdir /owl_config
 
 # Confirm
