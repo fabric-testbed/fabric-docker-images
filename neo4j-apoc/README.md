@@ -1,6 +1,7 @@
 ### Versions available:
 
 Available in this repo (and via [FABRIC Docker Hub](https://hub.docker.com/repository/docker/fabrictestbed/neo4j-apoc)):
+- 5.3.0, (APOC 5.3.0, GDS 2.2.6) latest: ([Dockerfile](5.3.0/), [README](5.3.0/README.md)) - big change with this version in how APOC and GDS are handled. Requires that [migration script](5.3.0/aux/migration.sh) is run.
 - 4.1.6, (APOC 4.1.0.10, GDS 1.5.0) latest: ([Dockerfile](4.1.6/))
 - 4.0.3, (APOC 4.0.0.10, GDS 1.2.1) latest: ([Dockerfile](4.0.3/))
 
@@ -17,6 +18,7 @@ Available from RENCI-NRIG/impact-docker-images:
 ### What is APOC?
 
 - [APOC](https://neo4j.com/developer/neo4j-apoc/) stands for Awesome Procedures on Cypher. Before APOC’s release, developers needed to write their own procedures and functions for common functionality that Cypher or the Neo4j database had not yet implemented for support. Each developer might write his own version of these functions, causing a lot of duplication.
+- Note that APOC has become an integral part of Neo4j rather than being a contributed package. With version 5.x it ships built into the community Docker definition
 
 
 ### What is GDS?
@@ -35,7 +37,7 @@ Example:
 ```
 $ mkdir -p neo4j/data
 $ mkdir -p neo4j/imports
-$ echo password > neo4j/password
+$ mkdir -p neo4j/logs
 ```
 
 Then start the docker:
@@ -52,39 +54,37 @@ $ docker run -d \
   fabrictestbed/neo4j-apoc:latest
 ```
 
+Note: the `neo4j/password` is not a file name, rather password for neo4j admin is set to `password`.
+
 Once the container completes it's startup script a web UI will be running at [http://localhost:7474/](http://localhost:7474/)
 
 Verify that container has completed script
 
+
 ```console
-$ docker logs neo4j
-Changed password for user 'neo4j'.
-Active database: graph.db
-Directories in use:
-  home:         /var/lib/neo4j
-  config:       /var/lib/neo4j/conf
-  logs:         /var/lib/neo4j/logs
-  plugins:      /var/lib/neo4j/plugins
-  import:       /var/lib/neo4j/import
-  data:         /var/lib/neo4j/data
-  certificates: /var/lib/neo4j/certificates
-  run:          /var/lib/neo4j/run
-Starting Neo4j.
-2019-01-03 14:54:32.205+0000 WARN  Unknown config option: causal_clustering.discovery_listen_address
-2019-01-03 14:54:32.212+0000 WARN  Unknown config option: causal_clustering.raft_advertised_address
-2019-01-03 14:54:32.212+0000 WARN  Unknown config option: causal_clustering.raft_listen_address
-2019-01-03 14:54:32.213+0000 WARN  Unknown config option: ha.host.coordination
-2019-01-03 14:54:32.213+0000 WARN  Unknown config option: causal_clustering.transaction_advertised_address
-2019-01-03 14:54:32.213+0000 WARN  Unknown config option: causal_clustering.discovery_advertised_address
-2019-01-03 14:54:32.214+0000 WARN  Unknown config option: ha.host.data
-2019-01-03 14:54:32.214+0000 WARN  Unknown config option: causal_clustering.transaction_listen_address
-2019-01-03 14:54:32.240+0000 INFO  ======== Neo4j 3.5.0 ========
-2019-01-03 14:54:32.259+0000 INFO  Starting...
-2019-01-03 14:54:46.751+0000 INFO  Bolt enabled on 0.0.0.0:7687.
-2019-01-03 14:54:50.397+0000 INFO  Started.
-2019-01-03 14:54:52.575+0000 INFO  Remote interface available at http://localhost:7474/
+$ docker logs neo4j-5
+Installing Plugin 'apoc' from /var/lib/neo4j/labs/apoc-*-core.jar to /var/lib/neo4j/plugins/apoc.jar
+Applying default values for plugin apoc to neo4j.conf
+Installing Plugin 'graph-data-science' from /var/lib/neo4j/products/neo4j-graph-data-science-*.jar to /var/lib/neo4j/plugins/graph-data-science.jar
+Applying default values for plugin graph-data-science to neo4j.conf
+Changed password for user 'neo4j'. IMPORTANT: this change will only take effect if performed before the database is started for the first time.
+2023-01-17 19:03:51.210+0000 INFO  Starting...
+2023-01-17 19:03:51.888+0000 INFO  This instance is ServerId{f5752c51} (f5752c51-6ca7-4fdb-aabd-6bf28d49fec3)
+SLF4J: Failed to load class "org.slf4j.impl.StaticLoggerBinder".
+SLF4J: Defaulting to no-operation (NOP) logger implementation
+SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further details.
+2023-01-17 19:03:53.006+0000 INFO  ======== Neo4j 5.3.0 ========
+2023-01-17 19:03:53.487+0000 INFO  GDS compatibility: for Neo4j Settings 4.x -- not available, for Neo4j Settings 5.1 -- not available, for Neo4j Settings 5.2.0 -- not available, for Neo4j Settings 5.3 -- available, selected: Neo4j Settings 5.3
+2023-01-17 19:03:53.487+0000 INFO  GDS compatibility: for Neo4j 4.3 -- not available, for Neo4j 4.4 -- not available, for Neo4j 5.1 -- not available, for Neo4j 5.2.0 -- not available, for Neo4j 5.3 -- available, selected: Neo4j 5.3
+2023-01-17 19:04:14.205+0000 INFO  Bolt enabled on 0.0.0.0:7687.
+2023-01-17 19:04:15.396+0000 INFO  Remote interface available at http://localhost:7474/
+2023-01-17 19:04:15.401+0000 INFO  id: C47DD3A66FD19AE58D758A006AC089891E23EF1C555E2709C00FBC312D0AD144
+2023-01-17 19:04:15.402+0000 INFO  name: system
+2023-01-17 19:04:15.402+0000 INFO  creationDate: 2023-01-17T16:51:11.758Z
+2023-01-17 19:04:15.402+0000 INFO  Started.
 ...
 ```
+Note: the APOC and GDS plugins are installed from local files within the docker. If you see them being fetched from URLs, something isn't working right.
 
 Open web UI at [http://localhost:7474/](http://localhost:7474/)
 
@@ -93,3 +93,9 @@ Open web UI at [http://localhost:7474/](http://localhost:7474/)
 Login wiht user/pass = neo4j/password
 
 <img width="80%" alt="web UI post login" src="https://user-images.githubusercontent.com/5332509/50646322-c0992c00-0f43-11e9-821b-3a131f9c95ca.png">
+
+## Upgrading databases
+
+- For version 4.x and below, the `dbms.allow_upgrade=true` setting had to be in effect for the database engine to update the
+database structure (the process is one-way and reversion is not possible without backups).
+- For version 5.x the upgrade is automatic
