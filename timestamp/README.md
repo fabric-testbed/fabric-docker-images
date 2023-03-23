@@ -14,7 +14,7 @@ To use the timestamp service, PTP (Precision Time Protocol) should be configured
 
 ```
 sudo docker run -dit \
--v /home/VolumeToMount:/root/services/timestamp/output_files/ \
+-v /home/PATH_TO_VOLUME:/root/services/timestamp/output_files/ \
 --pid=host \
 --network=host \
 --privileged \
