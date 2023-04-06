@@ -15,7 +15,6 @@ RUN  dnf install -y epel-release \
      && rm -rf /var/cache/yum
 
 
-
 # Basic tools
 RUN dnf install -y  curl python3.9 python39-devel vim sudo git \
         && dnf groupinstall -y "Development Tools" \
