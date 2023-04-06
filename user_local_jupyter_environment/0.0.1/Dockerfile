@@ -72,6 +72,7 @@ RUN echo 'fabric ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 
 
 ADD work /home/fabric/work
+RUN mkdir -p /home/fabric/work/fabric_config
 RUN chown -R fabric:fabric /home/fabric/work
 
 USER fabric
