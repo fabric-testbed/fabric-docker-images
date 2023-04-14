@@ -1,9 +1,5 @@
 # OWL (One-way Latency)
 
-## Versions Available
-- 0.1.0 
-- 0.1.1
-
 ## What is OWL?
 OWL is a FABRIC Measurement Framework service module that measures the one-way 
 network latency between the source and destination hosts by injecting probe UDP packets 
@@ -22,7 +18,7 @@ to obtain precise measurements
 
 ## Current Limitations
 - IPv4 only
-- Endpoints must not be routing devices
+- Source and destination hosts  must not be routing devices
 
 
 ## How to Run
