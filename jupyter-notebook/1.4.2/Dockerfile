@@ -10,6 +10,7 @@ RUN apt-get update --yes && \
   nano-tiny \
   tzdata \
   unzip \
+  zip \
   vim-tiny \
   vim \
   curl \
