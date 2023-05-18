@@ -23,7 +23,7 @@ dependencies needed to use the FABRIC data plane config scripts.
 ### Building
 
 ```
-docker build -t netctrl-devops .
+docker build -t netctrl .
 ```
 
 ### How to run
@@ -32,7 +32,7 @@ docker build -t netctrl-devops .
 
 ```
 git clone git@github.com:fabric-testbed/NetworkController
-docker run -ti -v $(pwd)/NetworkController:/NetworkController netctrl-devops bash
+docker run -ti -v $(pwd)/NetworkController:/NetworkController netctrl bash
 cd NetworkController/devices-config/ansible
 ansible-playbook -v -i inventory/fabric-cisco-dev.py sync-from.yaml
 ...
@@ -48,5 +48,5 @@ connection details. With these parameters set, we can run the included
 For example, list NSO devices:
 
 ```
-docker run -ti --rm -e FABRIC_MGMT_CLI_CONFIG_PATH=/etc/config.yml -v /opt/ManagementCli/config-test.yml:/etc/config.yml netctrl-devops fabric-mgmt-cli net show devices
+docker run -ti --rm -e FABRIC_MGMT_CLI_CONFIG_PATH=/etc/config.yml -v /opt/ManagementCli/config-test.yml:/etc/config.yml netctrl fabric-mgmt-cli net show devices
 ```
