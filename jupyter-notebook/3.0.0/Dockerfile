@@ -50,10 +50,12 @@ RUN python3 -m bash_kernel.install
 RUN python3 -m sos_notebook.install
 RUN python3 -m ansible_kernel.install
 
-RUN jupyter labextension install transient-display-data
-RUN jupyter labextension install jupyterlab-sos
-RUN jupyter labextension install @jupyter-widgets/jupyterlab-manager
-RUN jupyter labextension install jupyter-matplotlib
+# No longer needed since Jupyter Lab 3.0
+# https://jupyterlab.readthedocs.io/en/stable/user/extensions.html#un-installing-using-jupyter-labextension
+#RUN jupyter labextension install transient-display-data
+#RUN jupyter labextension install jupyterlab-sos
+#RUN jupyter labextension install @jupyter-widgets/jupyterlab-manager
+#RUN jupyter labextension install jupyter-matplotlib
 
 RUN echo 'eval "$(_FABRIC_CLI_COMPLETE=source_bash fabric-cli)"' >> ~/.bashrc
 RUN sh /tmp/profile.sh
