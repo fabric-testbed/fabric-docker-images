@@ -24,6 +24,12 @@ RUN apt-get update --yes && \
   gcc \
   gpa \
   seahorse \
+  iputils-ping \ 
+  traceroute \
+  iproute2 \
+  net-tools \
+  tcpdump \
+  netcat \
   build-essential
 RUN  apt-get clean && rm -rf /var/lib/apt/lists/*
 
