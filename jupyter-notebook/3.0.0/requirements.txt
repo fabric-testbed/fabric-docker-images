@@ -23,6 +23,7 @@ jupytext
 wget
 jupyternb-setup==1.3.6
 fabrictestbed-extensions==1.5.4
+fabrictestbed-mflib
 slicecommander
 python-openstackclient
 openstacksdk
