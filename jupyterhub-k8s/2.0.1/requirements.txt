@@ -1,0 +1,3 @@
+oauthenticator
+ldap3
+fabricauthenticator==1.3
