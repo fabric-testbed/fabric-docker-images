@@ -1,0 +1,27 @@
+---
+version: '3.5'
+
+networks:
+  default:
+    name: "dev_central_prometheus"
+    external: true
+
+services:
+  heartbeat_monitor:
+    container_name: heartbeat_monitor
+    image: heartbeat_monitor
+
+    environment:
+
+      - heartbeat_racks_filename=heartbeat_racks.json
+      - monitored_racks_filename=monitored_racks.json
+      
+      - alertmanager_url=http://dev_central_prometheus_alertmanager:9093/api/v1/alerts
+      - heartbeat_log_level=DEBUG
+
+    volumes:
+      - ./heartbeat_racks.json:/app/heartbeat_racks.json
+      - ./monitored_racks.json:/app/monitored_racks.json
+
+    ports:
+      - 5000:5000
