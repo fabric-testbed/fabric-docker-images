@@ -15,7 +15,7 @@ ENV MOFED_DIR MLNX_OFED_LINUX-${MOFED_VER}-${OS_VER}-${PLATFORM}
 RUN  dnf install -y epel-release \
      && /usr/bin/crb enable
 
-# Basic tools
+# Basic tools 
 RUN dnf install -y python3 python3-devel vim pciutils sudo \
         && dnf groupinstall -y "Development Tools"
 
