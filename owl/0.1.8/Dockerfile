@@ -12,14 +12,16 @@ RUN apt-get update && \
 
 RUN pip install --upgrade pip
 RUN pip install --pre scapy[basic]
-RUN pip install --upgrade psutil
 RUN pip install influxdb-client
+RUN pip install --upgrade psutil
 RUN pip install requests
+RUN pip install influxdb3-python
+RUN pip install pandas
 
-RUN git clone https://github.com/fabric-testbed/MeasurementFramework.git
+RUN git clone --branch  https://github.com/fabric-testbed/MeasurementFramework.git
 RUN mkdir /owl_output
 RUN mkdir /owl_config
-RUN gcc -fPIC -shared -o /MeasurementFramework/user_services/owl/owl/sock_ops/time_ops/ptp_time.so \
+RUN gcc -fPIC -shared -o /MeasurementFramework/user_services/owl/owl/sock_ops/ptp_time.so \
 	/MeasurementFramework/user_services/owl/owl/sock_ops/ptp_time.c
 RUN ls -l /
 
