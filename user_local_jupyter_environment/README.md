@@ -1,12 +1,12 @@
 ### Running FABRIC JupyterLab Containers Locally
 
-This guide explains how to run local Jupyter Notebook containers on your machine using Docker for different FABRIC releases. Each release folder includes a `docker-compose.yml` file, which you can use to launch different containers.
+This guide explains how to run and manage local Jupyter Notebook containers on your machine using Docker for different FABRIC releases. Each release folder contains a `docker-compose.yml` file, which allows you to launch specific containers tailored to various stages of development.
 
-Below, we describe three types of containers you can run and how to do so:
+Here’s an overview of the three types of containers you can run and how to access them:
 
 #### 1. **fabric-default-\<release>**
 
-This container is designed to run the stable version of FABRIC's libraries (`fablib`) and host stable Jupyter examples. It corresponds to the default container option on FABRIC's Jupyter Hub.
+This container runs the stable release of FABRIC's libraries (`fablib`) and hosts stable Jupyter examples. It corresponds to the default container option on FABRIC's Jupyter Hub.
 
 To start the `fabric-default` container:
 1. Navigate to the release folder (for example, version `1.7.0`).
@@ -18,7 +18,7 @@ To start the `fabric-default` container:
 
 #### 2. **fabric-bleeding**
 
-This container runs the most up-to-date released version of `fablib` and includes the latest Jupyter examples. It corresponds to the "bleeding edge" container option on FABRIC's Jupyter Hub.
+This container runs the most recent released version of `fablib` and includes the latest Jupyter examples. It corresponds to the "bleeding edge" container option on FABRIC's Jupyter Hub.
 
 To start the `fabric-bleeding` container:
 1. Navigate to the release folder (for example, version `1.7.0`).
@@ -30,7 +30,7 @@ To start the `fabric-bleeding` container:
 
 #### 3. **fabric-beyond-bleeding**
 
-This is the most experimental container, running the `fablib` and Jupyter examples directly from the main branch. It includes the latest development changes and is primarily recommended for the FABRIC development team.
+This container is the most experimental version, running `fablib` and Jupyter examples from the main branch. It includes the latest development changes and is recommended primarily for the FABRIC development team.
 
 To start the `fabric-beyond-bleeding` container:
 1. Navigate to the release folder (for example, version `1.7.0`).
@@ -40,16 +40,44 @@ To start the `fabric-beyond-bleeding` container:
     docker-compose up -d fabric-beyond-bleeding
     ```
 
+### Accessing the Running Container
+
+Once the container is running, you may need to interact with it directly. To access the container’s shell, use the `docker exec` command.
+
+1. **List running containers:**
+   First, list the running containers to find the one you want to access:
+   ```bash
+   docker ps
+   ```
+   You should see something like this:
+   ```bash
+   CONTAINER ID   IMAGE                                  COMMAND               STATUS              NAMES
+   abcdef123456   fabrictestbed/jupyter-notebook:3.3.8   "start-notebook.sh"   Up 2 minutes        fabric-default
+   ```
+
+2. **Access the container's shell:**
+   Once you have the container name (e.g., `fabric-default`), use `docker exec` to enter the container:
+   ```bash
+   docker exec -it fabric-default /bin/bash
+   ```
+   This will drop you into the container's shell where you can run commands as if you were inside the container’s environment.
+
+3. **Exit the container:**
+   When you're done working inside the container, you can exit by typing:
+   ```bash
+   exit
+   ```
+
 ### Important Notes:
-- **Only one container can run at a time.** If you want to switch from one container to another, you will need to stop and remove the existing container before starting the new one. You can do this by running:
+- **Only one container can run at a time.** If you want to switch from one container to another, you must first stop and remove the existing container:
   ```bash
   docker-compose down
   docker-compose rm -fv
   ```
-  Then, bring up the new container using the commands mentioned above.
-  
-- **Work Directory Mapping:** Each container maps the `~/work` directory on your local machine to the `/home/fabric/work` directory inside the container. This means that any work you do in the container is saved to your local machine, ensuring no data is lost when you switch or stop containers.
+  Then, bring up the new container using the relevant `docker-compose up` command mentioned earlier.
 
-- **Token Setup:** Before running any notebooks, you need to download an authentication token from [FABRIC’s Credential Manager](https://cm.fabric-testbed.net/). Once you have the token, place it in your `~/work` directory on your machine. This step is necessary for authenticating your access to FABRIC resources.
+- **Work Directory Mapping:** Each container maps the `~/work` directory on your local machine to the `/home/fabric/work` directory inside the container. This ensures that all work is saved locally on your machine.
 
-By following these steps, you can easily switch between different FABRIC environments on your local machine while keeping your work saved.
+- **Token Setup:** Before running any Jupyter notebooks, you need to download an authentication token from [FABRIC's Credential Manager](https://cm.fabric-testbed.net/). Save the token in your `~/work` directory on your machine. This is required to authenticate and interact with FABRIC resources.
+
+By following these steps, you can easily switch between different FABRIC container environments, access the running containers, and keep your work synced with your local machine.
