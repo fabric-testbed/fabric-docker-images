@@ -11,7 +11,7 @@ services:
     environment:
       - JUPYTER_ENABLE_LAB=yes
       - FABRIC_NOTEBOOK_TAGS=rel1.7.0
-      - FABRIC_TOKEN_LOCATION: /home/fabric/tokens.json
+      - FABRIC_TOKEN_LOCATION=/home/fabric/tokens.json
     command:
           - "/bin/sh"
           - "-c"
