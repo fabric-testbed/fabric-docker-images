@@ -72,7 +72,6 @@ Once the container is running, you may need to interact with it directly. To acc
 - **Only one container can run at a time.** If you want to switch from one container to another, you must first stop and remove the existing container:
   ```bash
   docker-compose down
-  docker-compose rm -fv
   ```
   Then, bring up the new container using the relevant `docker-compose up` command mentioned earlier.
 
