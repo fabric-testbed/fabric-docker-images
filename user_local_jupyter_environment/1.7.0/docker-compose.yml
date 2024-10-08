@@ -4,6 +4,8 @@ services:
   fabric-default:
     image: fabrictestbed/jupyter-notebook:3.3.7
     container_name: fabric-default-1.7.0
+    healthcheck:
+      disable: true
     ports:
       - "8888:8888"
     volumes:
@@ -24,6 +26,8 @@ services:
   fabric-bleeding:
     image: fabrictestbed/jupyter-notebook:3.3.7
     container_name: fabric-bleeding
+    healthcheck:
+      disable: true
     ports:
       - "8888:8888"
     volumes:
@@ -45,6 +49,8 @@ services:
   fabric-beyond-bleeding:
     image: fabrictestbed/jupyter-notebook:3.3.7
     container_name: fabric-beyond-bleeding
+    healthcheck:
+      disable: true
     ports:
       - "8888:8888"
     volumes:

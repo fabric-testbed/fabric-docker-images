@@ -46,7 +46,7 @@ Once the container is up and running, you can access the JupyterLab interface fr
 
 - **http://localhost:8888/**
 
-If you've configured Jupyter to bypass token authentication, you will be able to access the notebook directly. Otherwise, you will need the token file downloaded earlier from FABRIC's Credential Manager.
+**Note:** It may take up to one minute for the container to start JupyterHub.
 
 ### Accessing the Running Container
 
