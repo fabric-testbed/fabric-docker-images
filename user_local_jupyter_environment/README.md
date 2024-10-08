@@ -2,7 +2,7 @@
 
 This guide explains how to run and manage local Jupyter Notebook containers on your machine using Docker for different FABRIC releases. Each release folder contains a `docker-compose.yml` file, which allows you to launch specific containers tailored to various stages of development.
 
-Here’s an overview of the three types of containers you can run and how to access them:
+Below are the three types of containers you can run and how to access them:
 
 #### 1. **fabric-default-\<release>**
 
@@ -40,9 +40,17 @@ To start the `fabric-beyond-bleeding` container:
     docker-compose up -d fabric-beyond-bleeding
     ```
 
+### Accessing JupyterHub
+
+Once the container is up and running, you can access the JupyterLab interface from your web browser by navigating to:
+
+- **http://localhost:8888/**
+
+If you've configured Jupyter to bypass token authentication, you will be able to access the notebook directly. Otherwise, you will need the token file downloaded earlier from FABRIC's Credential Manager.
+
 ### Accessing the Running Container
 
-Once the container is running, you may need to interact with it directly. To access the container’s shell, use the `docker exec` command.
+If you need to interact with the container directly, you can access its shell using the following steps:
 
 1. **List running containers:**
    First, list the running containers to find the one you want to access:
@@ -60,7 +68,7 @@ Once the container is running, you may need to interact with it directly. To acc
    ```bash
    docker exec -it fabric-default /bin/bash
    ```
-   This will drop you into the container's shell where you can run commands as if you were inside the container’s environment.
+   This will drop you into the container's shell where you can run commands as if you were inside the container.
 
 3. **Exit the container:**
    When you're done working inside the container, you can exit by typing:
@@ -77,6 +85,6 @@ Once the container is running, you may need to interact with it directly. To acc
 
 - **Work Directory Mapping:** Each container maps the `~/work` directory on your local machine to the `/home/fabric/work` directory inside the container. This ensures that all work is saved locally on your machine.
 
-- **Token Setup:** Before running any Jupyter notebooks, you need to download an authentication token from [FABRIC's Credential Manager](https://cm.fabric-testbed.net/). Save the token in your `~/work` directory on your machine. This is required to authenticate and interact with FABRIC resources.
+- **Token Setup:** Before running any Jupyter notebooks, download an authentication token from [FABRIC's Credential Manager](https://cm.fabric-testbed.net/). Save the token in your `~/work` directory on your machine. This is required to authenticate and interact with FABRIC resources.
 
-By following these steps, you can easily switch between different FABRIC container environments, access the running containers, and keep your work synced with your local machine.
+By following these steps, you can easily manage different FABRIC container environments, access JupyterLab via your browser, interact with the containers directly, and keep your work synced with your local machine.
