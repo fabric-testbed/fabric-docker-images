@@ -1,0 +1,23 @@
+version: '3'
+
+services:
+  jupyter:
+    image: fabrictestbed/jupyter-notebook:3.3.8
+    container_name: fabric_jupyter_notebook
+    ports:
+      - "8888:8888"
+    volumes:
+      - ~/work/:/home/fabric/work
+    environment:
+      - JUPYTER_ENABLE_LAB=yes
+      - FABRIC_NOTEBOOK_TAGS=rel1.7.0
+      - FABRIC_TOKEN_LOCATION: /home/fabric/tokens.json
+    command:
+          - "/bin/sh"
+          - "-c"
+          - |
+            /opt/conda/bin/python3.11 /opt/conda/lib/python3.11/site-packages/jupyternb/jupyter_startup.py
+            pip install nbresuse
+            start-notebook.sh --ServerApp.token=''
+    restart: always
+
