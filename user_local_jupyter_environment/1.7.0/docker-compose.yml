@@ -2,7 +2,7 @@ version: '3'
 
 services:
   fabric-default:
-    image: fabrictestbed/jupyter-notebook:3.3.7
+    image: fabrictestbed/jupyter-notebook:1.7.0
     container_name: fabric-default-1.7.0
     healthcheck:
       disable: true
@@ -18,13 +18,13 @@ services:
           - "/bin/sh"
           - "-c"
           - |
-            /opt/conda/bin/pip install --ignore-installed --no-cache-dir fabrictestbed-extensions==1.7.3
+            #/opt/conda/bin/pip install --ignore-installed --no-cache-dir fabrictestbed-extensions==1.7.3
             /opt/conda/bin/python3.11 /opt/conda/lib/python3.11/site-packages/jupyternb/jupyter_startup.py
             pip install nbresuse
             start-notebook.sh --ServerApp.token=''
     restart: always
   fabric-bleeding:
-    image: fabrictestbed/jupyter-notebook:3.3.7
+    image: fabrictestbed/jupyter-notebook:1.7.0
     container_name: fabric-bleeding
     healthcheck:
       disable: true
@@ -47,7 +47,7 @@ services:
             start-notebook.sh --ServerApp.token=''
     restart: always
   fabric-beyond-bleeding:
-    image: fabrictestbed/jupyter-notebook:3.3.7
+    image: fabrictestbed/jupyter-notebook:1.7.0
     container_name: fabric-beyond-bleeding
     healthcheck:
       disable: true
