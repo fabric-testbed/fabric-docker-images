@@ -1,4 +1,3 @@
-version: '3'
 
 services:
   fabric-default:
@@ -7,7 +6,7 @@ services:
     healthcheck:
       disable: true
     ports:
-      - "8888:8888"
+      - "127.0.0.1:8888:8888"
     volumes:
       - ~/work/:/home/fabric/work
     environment:
@@ -18,7 +17,6 @@ services:
           - "/bin/sh"
           - "-c"
           - |
-            #/opt/conda/bin/pip install --ignore-installed --no-cache-dir fabrictestbed-extensions==1.7.3
             /opt/conda/bin/python3.11 /opt/conda/lib/python3.11/site-packages/jupyternb/jupyter_startup.py
             pip install nbresuse
             start-notebook.sh --ServerApp.token=''
@@ -29,7 +27,7 @@ services:
     healthcheck:
       disable: true
     ports:
-      - "8888:8888"
+      - "127.0.0.1:8888:8888"
     volumes:
       - ~/work/:/home/fabric/work
     environment:
@@ -52,7 +50,7 @@ services:
     healthcheck:
       disable: true
     ports:
-      - "8888:8888"
+      - "127.0.0.1:8888:8888"
     volumes:
       - ~/work/:/home/fabric/work
     environment:
