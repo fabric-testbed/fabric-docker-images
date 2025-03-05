@@ -91,3 +91,4 @@ USER $NEW_NB_USER
 RUN mkdir -p $HOME/.ssh/ && \
     ssh-keygen -b 2048 -t rsa -f $HOME/.ssh/id_rsa -q -N "" && \
     cp /etc/jupyter/jupyter_notebook_config.py /home/fabric/.jupyter/
+
