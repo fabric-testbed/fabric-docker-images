@@ -86,7 +86,6 @@ RUN chown -R fabric:fabric /home/fabric/*
 RUN chmod +x /home/fabric/tools/*.sh
 
 
-
 USER fabric
 WORKDIR /home/fabric
 
