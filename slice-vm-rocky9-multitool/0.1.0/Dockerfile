@@ -5,9 +5,7 @@ LABEL maintainer="sankarang@renci.org"
 
 ARG FABRIC_MULTITOOL_ROCKYLINUX8_VERSION=0.1.0
 
-
 RUN echo "umask 0000" >> /etc/bashrc
-
 
 RUN  dnf install -y epel-release \
      && /usr/bin/crb enable \
