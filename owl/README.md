@@ -27,29 +27,34 @@ to obtain precise measurements
 #### source (sender) side
 
 ```
-$sudo docker run --rm -dp <port_num>:<same_port_num> \
+$sudo docker run --rm -d \
+[--rm] \
 --network="host"  \
 --pid="host" \
 --privileged \
-fabrictestbed/owl:<version>  sock_ops/owl_sender.py [options]
+[--name <container-name>] \
+fabrictestbed/owl:<version>  sock_ops/owl_sender.py [options] 
 
 
 # Example
-sudo docker run -dp 5005:5005 \
+sudo docker run -d \
 --network="host"  \
 --pid="host" \
 --privileged \
+--name owl-sender \
 fabrictestbed/owl:<version>  sock_ops/owl_sender.py  \
---ptp-so-file "/MeasurementFramework/user_services/owl/owl/sock_ops/ptp_time.so" \
---dest-ip "10.0.0.2" --dest-port 5005 --frequency 0.1 \
---seq-n 5452 --duration 60
+--ptp-so-file "/owl/owl/sock_ops/ptp_time.so" \
+--dest-ip "10.0.0.2" --dest-port 5005 --frequency 10 \
+--seq-n 5452 \
+[--duration 600]
 
 ```
 
 #### destination (receiver) side
 
 ```
-$sudo docker run --rm -dp <port_num>:<port_num> \
+$sudo docker run -d \
+[--rm] \
 --mount type=bind,source=<path/to/local/output/dir>,target=/owl_output \
 --network="host"  \
 --pid="host" \
@@ -57,12 +62,14 @@ $sudo docker run --rm -dp <port_num>:<port_num> \
 fabrictestbed/owl:<version>  sock_ops/owl_capturer.py [options]
 
 # Example
-$sudo docker run -dp 5005:5005 \
+sudo docker run -d \
 --mount type=bind,source=/home/username/owl/output/,target=/owl_output \
 --network="host"  \
 --privileged \
+--name owl-receiver \
 fabrictestbed/owl:<version> sock_ops/owl_capturer.py \
---ip "10.0.0.2" --port 5005 --pcap-sec 60 \
+--ip "10.0.0.2" \
+--port 5005 \
 --outdir /owl_output --duration 60
 
 ```
@@ -72,10 +79,28 @@ fabrictestbed/owl:<version> sock_ops/owl_capturer.py \
 (may still be buggy)
 
 ```
-docker run --rm -dp  \
+docker run --rm -d  \
 --mount type=bind,source=~/mydir/owl/output,target=/owl_output  \
 --privileged \
-fabrictestbed/owl:<version>  DataProcessManager.py process /owl_output out.csv
+fabrictestbed/owl:<version>  data_ops/pcap_to_csv.py [--options]
 ```
 
+## Send Output Data to a Running InfluxDB instance
 
+```
+sudo docker run -d \
+[--rm] \
+--mount type=bind,source=<path/to/local/output/dir>,target=/owl_output \
+--network="host"  \
+--pid="host" \
+--privileged \
+[--name <container-name>] \
+fabrictestbed/owl:<version> data_ops/send_data.py \
+--pcapfile <pcapfile> \
+--token <influxdb_token> \
+--org <influxdb_org> \
+--url <influxdb_url> \
+--desttype <desttype> \
+--bucket <influxdb_bucket>
+
+ 
