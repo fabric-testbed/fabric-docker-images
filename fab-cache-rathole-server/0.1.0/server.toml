@@ -1,0 +1,4 @@
+# server.toml
+[server]
+
+[server.services.my_nas_ssh]
