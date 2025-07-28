@@ -1,0 +1,74 @@
+
+services:
+  fabric-default:
+    image: fabrictestbed/jupyter-notebook:1.9.0
+    container_name: fabric-default-1.9.0
+    healthcheck:
+      disable: true
+    ports:
+      - "127.0.0.1:8888:8888"
+    volumes:
+      - ~/work/:/home/fabric/work
+    environment:
+      - JUPYTER_ENABLE_LAB=yes
+      - FABRIC_NOTEBOOK_TAGS=rel1.9.0
+      - FABRIC_TOKEN_LOCATION=/home/fabric/work/id_token.json
+    command:
+          - "/bin/sh"
+          - "-c"
+          - |
+            /opt/conda/bin/python3.11 /opt/conda/lib/python3.11/site-packages/jupyternb/jupyter_startup.py
+            pip install nbresuse
+            start-notebook.sh --ServerApp.token=''
+    restart: always
+  fabric-bleeding:
+    image: fabrictestbed/jupyter-notebook:1.9.0
+    container_name: fabric-bleeding
+    healthcheck:
+      disable: true
+    ports:
+      - "127.0.0.1:8888:8888"
+    volumes:
+      - ~/work/:/home/fabric/work
+    environment:
+      - JUPYTER_ENABLE_LAB=yes
+      - FABRIC_TOKEN_LOCATION=/home/fabric/work/id_token.json
+    command:
+          - "/bin/sh"
+          - "-c"
+          - |
+            export FABRIC_NOTEBOOK_TAGS=`curl -s https://api.github.com/repos/fabric-testbed/jupyter-examples/releases/latest | grep '"tag_name":' | cut -d '"' -f 4`
+            /opt/conda/bin/python3.11 /opt/conda/lib/python3.11/site-packages/jupyternb/jupyter_startup.py
+            /opt/conda/bin/pip install --ignore-installed --no-cache-dir fabrictestbed-extensions
+            /opt/conda/bin/pip install --ignore-installed --no-cache-dir fabrictestbed-mflib 
+            pip install nbresuse
+            start-notebook.sh --ServerApp.token=''
+    restart: always
+  fabric-beyond-bleeding:
+    image: fabrictestbed/jupyter-notebook:1.9.0
+    container_name: fabric-beyond-bleeding
+    healthcheck:
+      disable: true
+    ports:
+      - "127.0.0.1:8888:8888"
+    volumes:
+      - ~/work/:/home/fabric/work
+    environment:
+      - JUPYTER_ENABLE_LAB=yes
+      - FABRIC_NOTEBOOK_TAGS=rel1.9.0
+      - FABRIC_TOKEN_LOCATION=/home/fabric/work/id_token.json
+    command:
+          - "/bin/sh"
+          - "-c"
+          - |
+            /opt/conda/bin/pip install --ignore-installed --no-cache-dir fabrictestbed-mflib 
+            /opt/conda/bin/python3.11 /opt/conda/lib/python3.11/site-packages/jupyternb/jupyter_startup.py
+            /opt/conda/bin/pip install -e git+https://github.com/fabric-testbed/fabrictestbed-extensions@main#egg=fabrictestbed-extensions --src /home/fabric/
+            if [ ! -d "/home/fabric/work/jupyter-examples" ] && [ ! -d "/home/fabric/work/jupyter-examples-main" ]; then
+               wget https://github.com/fabric-testbed/jupyter-examples/archive/refs/heads/main.tar.gz /home/fabric/work/
+               tar -zxvf /home/fabric/work/main.tar.gz -C /home/fabric/work/
+               rm -rf /home/fabric/work/main.tar.gz
+            fi
+            pip install nbresuse
+            start-notebook.sh --ServerApp.token=''
+    restart: always
