@@ -85,10 +85,10 @@
 					value="1000" />
 				<constructor-arg
 					name="maxNumOfImmediateChildren"
-					value="100" />
+					value="1000" />
 				<constructor-arg
 					name="maxDepth"
-					value="100" />
+					value="1000" />
 			</bean>
 			<bean class="org.ow2.authzforce.jaxrs.util.BadRequestExceptionMapper" />
 			<bean class="org.ow2.authzforce.jaxrs.util.ClientErrorExceptionMapper" />
