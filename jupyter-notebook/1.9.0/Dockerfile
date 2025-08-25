@@ -77,6 +77,10 @@ RUN sh /tmp/profile.sh
 # Copy Jupyter Notebook configuration
 COPY jupyter_notebook_config.py /etc/jupyter/
 USER root
+RUN mkdir -p /home/$NEW_NB_USER/.cache
+RUN mkdir -p /home/$NEW_NB_USER/work
+RUN chown -R $NEW_NB_USER:users /home/$NEW_NB_USER/
+
 
 # Copy entrypoint script and set permissions
 COPY docker-entrypoint.sh /srv/docker-entrypoint.sh
@@ -86,8 +90,10 @@ RUN chmod +x /srv/docker-entrypoint.sh
 ENTRYPOINT ["tini", "--", "/srv/docker-entrypoint.sh"]
 CMD ["start-singleuser.sh"]
 
+RUN chown -R $NEW_NB_USER:users /home/$NEW_NB_USER/
 # Set user back to the new user
 USER $NEW_NB_USER
+RUN mkdir -p /home/$NEW_NB_USER/.cache
 RUN mkdir -p $HOME/.ssh/ && \
     cp /etc/jupyter/jupyter_notebook_config.py /home/fabric/.jupyter/
 
