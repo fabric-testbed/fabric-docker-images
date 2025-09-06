@@ -3,6 +3,8 @@
 5.3.0 is a significant departure from the 4-series versions. There are differences
 in Cypher syntax and underlying database format, including indices.
 
+
+
 ## Migration
 
 Prior to turnin on 5.3.0 please run the [migration script](aux/migration.sh) by
