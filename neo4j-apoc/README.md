@@ -1,9 +1,10 @@
 ### Versions available:
 
 Available in this repo (and via [FABRIC Docker Hub](https://hub.docker.com/repository/docker/fabrictestbed/neo4j-apoc)):
-- 5.3.0, (APOC 5.3.0, GDS 2.2.6) latest: ([Dockerfile](5.3.0/), [README](5.3.0/README.md)) - big change with this version in how APOC and GDS are handled. Requires that [migration script](5.3.0/aux/migration.sh) is run.
-- 4.1.6, (APOC 4.1.0.10, GDS 1.5.0) latest: ([Dockerfile](4.1.6/))
-- 4.0.3, (APOC 4.0.0.10, GDS 1.2.1) latest: ([Dockerfile](4.0.3/))
+- 5.26.19, (APOC 5.26.19, GDS 2.13) **latest LTS** (supported until June 2028): ([Dockerfile](5.26.19/), [README](5.26.19/README.md)) - Long-term support release. For migration from 5.3.0 or 5.12.0, run [migration script](5.26.19/aux/migrate.sh).
+- 5.3.0, (APOC 5.3.0, GDS 2.2.6): ([Dockerfile](5.3.0/), [README](5.3.0/README.md)) - Big change with this version in how APOC and GDS are handled. Requires that [migration script](5.3.0/aux/migrate.sh) is run for 4.x → 5.x migration.
+- 4.1.6, (APOC 4.1.0.10, GDS 1.5.0): ([Dockerfile](4.1.6/))
+- 4.0.3, (APOC 4.0.0.10, GDS 1.2.1): ([Dockerfile](4.0.3/))
 
 Available from RENCI-NRIG/impact-docker-images:
 - 3.5.0, latest: ([Dockerfile](https://github.com/RENCI-NRIG/impact-docker-images/tree/master/neo4j/3.5.0))

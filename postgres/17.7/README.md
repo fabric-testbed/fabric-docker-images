@@ -64,28 +64,11 @@ docker exec postgres17 psql -U testuser -c "\l"
 
 Expected output should show the default `postgres` database plus your custom databases (`am`, `broker`, `controller`).
 
-To make this README section truly useful for others (or your future self), it’s helpful to include the **pre-requisite** stop command and the **post-upgrade** cleanup steps.
+## PostgreSQL 12 to 17 Migration Guide
 
-Here is a polished version that covers the full lifecycle of the migration:
+### 1. Data Migration
 
----
-
-## Upgrading from PostgreSQL 12 to 17
-
-PostgreSQL does not support in-place major version upgrades. You must migrate the data files using `pg_upgrade`.
-
-### 1. Stop the current database
-
-Ensure the container is stopped so the data files are in a consistent state:
-
-```bash
-docker stop database
-
-```
-
-### 2. Run the Migration
-
-Run the following command as a user with root/sudo privileges to ensure correct file permissions:
+Run the upgrade utility as root to handle system-level file permissions:
 
 ```bash
 docker run --rm \
@@ -93,35 +76,44 @@ docker run --rm \
   -v /opt/data/database/postgres:/var/lib/postgresql/12/data \
   -v /opt/data/database/postgres_new:/var/lib/postgresql/17/data \
   tianon/postgres-upgrade:12-to-17 \
-  --username=fabric --link
+  --username=fabric
 
 ```
 
-> **Note:** The `--link` flag is used to perform the upgrade via hard links, making the process nearly instantaneous and avoiding doubling disk usage.
-
-### 3. Swap Data Directories
-
-After the upgrade reports "Success", swap the old data with the new:
+### 2. File Swap & Restart
 
 ```bash
 cd /opt/data/database/
-mv postgres postgres_v12_bak
+mv postgres postgres_v12_old
 mv postgres_new postgres
+
+# Update docker-compose.yml image to fabrictestbed/postgres:17 beforehand
+docker compose up -d
 
 ```
 
-### 4. Update and Start
+### 3. Collation & Index Maintenance
 
-1. Clear the WAL/log directory (e.g., `./pg_data/logs`) as version 12 logs are incompatible with 17.
-2. Update the `image` tag in `docker-compose.yaml` to `postgres:17`.
-3. Start the container: `docker-compose up -d`.
-
-### 5. Post-Upgrade Optimization
-
-Rebuild the database statistics to ensure optimal performance:
+Essential to prevent index corruption due to OS-level library changes:
 
 ```bash
-docker exec -u fabric database vacuumdb --all --analyze-in-stages
+# Refresh Collation Versions
+docker exec database psql -U fabric -t -c "SELECT datname FROM pg_database WHERE datallowconn" | \
+xargs -I {} docker exec database psql -U fabric -d {} -c "ALTER DATABASE \"{}\\" REFRESH COLLATION VERSION;"
+```
+```
+docker exec database vacuumdb -U fabric --all --analyze-in-stages
+docker exec database reindexdb -U fabric --all
+```
+
+### 4. Network Access
+
+Allow internal Docker traffic and reload configuration:
+
+```bash
+echo "host all all 0.0.0.0/0 md5" | sudo tee -a /opt/data/database/postgres/pg_hba.conf
+docker exec database psql -U fabric -c "SELECT pg_reload_conf();"
+docker restart database
 ```
 
 ## What's New in PostgreSQL 17
