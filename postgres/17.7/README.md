@@ -64,12 +64,6 @@ docker exec postgres17 psql -U testuser -c "\l"
 
 Expected output should show the default `postgres` database plus your custom databases (`am`, `broker`, `controller`).
 
-To make this README section truly useful for others (or your future self), it’s helpful to include the **pre-requisite** stop command and the **post-upgrade** cleanup steps.
-
-Here is a polished version that covers the full lifecycle of the migration:
-
----
-
 ## Upgrading from PostgreSQL 12 to 17
 
 PostgreSQL does not support in-place major version upgrades. You must migrate the data files using `pg_upgrade`.
@@ -113,7 +107,7 @@ mv postgres_new postgres
 ### 4. Update and Start
 
 1. Clear the WAL/log directory (e.g., `./pg_data/logs`) as version 12 logs are incompatible with 17.
-2. Update the `image` tag in `docker-compose.yaml` to `postgres:17`.
+2. Update the `image` tag in `docker-compose.yaml` to `fabrictestbed/postgres:17.7`.
 3. Start the container: `docker-compose up -d`.
 
 ### 5. Post-Upgrade Optimization
