@@ -1,5 +1,6 @@
 # PostgreSQL
 ## Versions Available
+- 17.7 (Latest)
 - 12.3
 ## What is this?
 PostgreSQL, often simply "Postgres", is an object-relational database management system (ORDBMS) with an emphasis on extensibility and standards-compliance. Refer [here](https://github.com/docker-library/docs/blob/master/postgres/README.md) for more details.
