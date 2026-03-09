@@ -14,14 +14,12 @@ ARG LOOMAI_REPO
 RUN git clone --depth 1 --branch ${LOOMAI_VERSION} ${LOOMAI_REPO} /src
 
 # --- Stage 2: Build frontend ---
-FROM node:18-alpine AS frontend-build
+FROM node:20-alpine AS frontend-build
 WORKDIR /app
 ENV NEXT_BUILD_MODE=export
-# Increase memory for Next.js build
 ENV NODE_OPTIONS="--max-old-space-size=4096"
-COPY --from=source /src/frontend/package.json /src/frontend/package-lock.json ./
-RUN npm ci
 COPY --from=source /src/frontend/ .
+RUN npm ci --prefer-offline --no-audit --no-fund
 RUN npm run build
 
 # --- Stage 3: Final image ---
