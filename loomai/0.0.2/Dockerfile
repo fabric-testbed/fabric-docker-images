@@ -14,12 +14,11 @@ ARG LOOMAI_REPO
 RUN git clone --depth 1 --branch ${LOOMAI_VERSION} ${LOOMAI_REPO} /src
 
 # --- Stage 2: Build frontend ---
-FROM node:18-alpine AS frontend-build
+FROM node:20-alpine AS frontend-build
 WORKDIR /app
-COPY --from=source /src/frontend/package.json /src/frontend/package-lock.json ./
-RUN npm ci --prefer-offline --no-audit && npm cache clean --force
+ENV NODE_OPTIONS="--max-old-space-size=4096"
 COPY --from=source /src/frontend/ .
-RUN npm run build && rm -rf node_modules
+RUN npm ci --no-audit && npm run build && rm -rf node_modules
 
 # --- Stage 3: Final image ---
 FROM python:3.11-slim
