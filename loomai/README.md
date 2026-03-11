@@ -25,7 +25,10 @@ AI-assisted experiment designer for the [FABRIC testbed](https://fabric-testbed.
 ```bash
 docker pull fabrictestbed/loomai:0.0.1
 docker run -d \
-  -p 3000:3000 -p 8000:8000 -p 8889:8889 \
+  -p 3000:3000 -p 8000:8000 -p 8889:8889 -p 9100-9199:9100-9199 \
   -v fabric_work:/home/fabric/work \
   fabrictestbed/loomai:0.0.1
 ```
+
+
+
