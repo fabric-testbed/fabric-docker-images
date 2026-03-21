@@ -1,6 +1,6 @@
 services:
   loomai:
-    image: fabrictestbed/loomai:latest
+    image: fabrictestbed/loomai:0.0.5
     ports:
       - "3000:3000"        # Web UI (nginx)
       - "8000:8000"        # Backend API (direct access)
