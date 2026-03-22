@@ -9,6 +9,7 @@ AI-assisted experiment designer for the [FABRIC testbed](https://fabric-testbed.
 
 | Version | LoomAI Release | Description |
 |---------|---------------|-------------|
+| 0.0.6   | v0.0.6        | Release 0.0.6 |
 | 0.0.5   | v0.0.5        | Release 0.0.5 |
 | 0.0.3   | v0.0.3        | Release 0.0.3 |
 | 0.0.2   | v0.0.2        | Aligned Dockerfile with upstream loomai repo |
@@ -28,14 +29,14 @@ AI-assisted experiment designer for the [FABRIC testbed](https://fabric-testbed.
 ### Docker Compose (recommended)
 
 ```bash
-curl -O https://raw.githubusercontent.com/fabric-testbed/fabric-docker-images/main/loomai/0.0.5/docker-compose.yml
+curl -O https://raw.githubusercontent.com/fabric-testbed/fabric-docker-images/main/loomai/0.0.6/docker-compose.yml
 docker compose up -d
 ```
 
 ### Docker Run
 
 ```bash
-docker pull fabrictestbed/loomai:0.0.5
+docker pull fabrictestbed/loomai:0.0.6
 docker run -d \
   -p 3000:3000 -p 8000:8000 -p 8889:8889 -p 9100-9199:9100-9199 \
   -v fabric_work:/home/fabric/work \
@@ -44,5 +45,5 @@ docker run -d \
   -e DOCKER_REPO=fabrictestbed/loomai \
   --dns 8.8.8.8 --dns 8.8.4.4 \
   --restart unless-stopped \
-  fabrictestbed/loomai:0.0.5
+  fabrictestbed/loomai:0.0.6
 ```
