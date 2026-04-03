@@ -1,0 +1,21 @@
+services:
+  loomai:
+    image: fabrictestbed/loomai:0.0.22
+    ports:
+      - "3000:3000"        # Web UI (nginx)
+      - "8000:8000"        # Backend API (direct access)
+      - "8889:8889"        # JupyterLab
+      - "9100-9199:9100-9199"  # SSH tunnels for My Web Apps
+    volumes:
+      - fabric_work:/home/fabric/work
+    environment:
+      - FABRIC_CONFIG_DIR=/home/fabric/work/fabric_config
+      - FABRIC_STORAGE_DIR=/home/fabric/work
+      - DOCKER_REPO=fabrictestbed/loomai
+    dns:
+      - 8.8.8.8
+      - 8.8.4.4
+    restart: unless-stopped
+
+volumes:
+  fabric_work:
