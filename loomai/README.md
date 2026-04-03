@@ -9,6 +9,7 @@ AI-assisted experiment designer for the [FABRIC testbed](https://fabric-testbed.
 
 | Version | LoomAI Release | Description |
 |---------|---------------|-------------|
+| 0.0.22   | v0.0.22        | Add loomai CLI, clean up jupyter-collaboration deps |
 | 0.0.21   | v0.0.21        | Release 0.0.21 |
 | 0.0.17   | v0.0.17        | Release 0.0.17 |
 | 0.0.5   | v0.0.5        | Release 0.0.5 |
@@ -30,14 +31,14 @@ AI-assisted experiment designer for the [FABRIC testbed](https://fabric-testbed.
 ### Docker Compose (recommended)
 
 ```bash
-curl -O https://raw.githubusercontent.com/fabric-testbed/fabric-docker-images/main/loomai/0.0.21/docker-compose.yml
+curl -O https://raw.githubusercontent.com/fabric-testbed/fabric-docker-images/main/loomai/0.0.22/docker-compose.yml
 docker compose up -d
 ```
 
 ### Docker Run
 
 ```bash
-docker pull fabrictestbed/loomai:0.0.21
+docker pull fabrictestbed/loomai:0.0.22
 docker run -d \
   -p 3000:3000 -p 8000:8000 -p 8889:8889 -p 9100-9199:9100-9199 \
   -v fabric_work:/home/fabric/work \
@@ -46,5 +47,5 @@ docker run -d \
   -e DOCKER_REPO=fabrictestbed/loomai \
   --dns 8.8.8.8 --dns 8.8.4.4 \
   --restart unless-stopped \
-  fabrictestbed/loomai:0.0.21
+  fabrictestbed/loomai:0.0.22
 ```
