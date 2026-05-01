@@ -1,0 +1,19 @@
+services:
+  loomai-hub:
+    image: fabrictestbed/loomai-hub:0.1.0
+    ports:
+      - "8081:8081"
+    volumes:
+      - hub_data:/app/data
+    environment:
+      - HUB_PREFIX=/hub
+      - DATABASE_URL=sqlite+aiosqlite:///./data/hub.db
+      - CILOGON_CLIENT_ID=${CILOGON_CLIENT_ID}
+      - CILOGON_CLIENT_SECRET=${CILOGON_CLIENT_SECRET}
+      - SESSION_SECRET=${SESSION_SECRET}
+      - CHP_API_TOKEN=${CHP_API_TOKEN}
+      - FABRIC_CORE_API=https://uis.fabric-testbed.net
+    restart: unless-stopped
+
+volumes:
+  hub_data:

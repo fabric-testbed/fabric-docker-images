@@ -9,6 +9,8 @@ AI-assisted experiment designer for the [FABRIC testbed](https://fabric-testbed.
 
 | Version | LoomAI Release | Description |
 |---------|---------------|-------------|
+| 0.3.0    | v0.3.0         | K8s multi-user support, standalone Docker password protection, token upload flow |
+| 0.2.2    | v0.2.2         | Bastion username from UIS API |
 | 0.2.0    | v0.2.0         | Release 0.2.0 |
 | 0.1.0    | v0.1.0         | Install script, component type filters, heatmap color metric, resource calendar host view |
 | 0.0.22   | v0.0.22        | Add loomai CLI, clean up jupyter-collaboration deps |
@@ -33,21 +35,33 @@ AI-assisted experiment designer for the [FABRIC testbed](https://fabric-testbed.
 ### Docker Compose (recommended)
 
 ```bash
-curl -O https://raw.githubusercontent.com/fabric-testbed/fabric-docker-images/main/loomai/0.2.0/docker-compose.yml
+curl -O https://raw.githubusercontent.com/fabric-testbed/fabric-docker-images/main/loomai/0.3.0/docker-compose.yml
 docker compose up -d
+```
+
+Check the container logs for the auto-generated password:
+```bash
+docker compose logs | grep "LoomAI password"
 ```
 
 ### Docker Run
 
 ```bash
-docker pull fabrictestbed/loomai:0.2.0
+docker pull fabrictestbed/loomai:0.3.0
 docker run -d \
   -p 3000:3000 -p 8000:8000 -p 8889:8889 -p 9100-9199:9100-9199 \
   -v fabric_work:/home/fabric/work \
   -e FABRIC_CONFIG_DIR=/home/fabric/work/fabric_config \
   -e FABRIC_STORAGE_DIR=/home/fabric/work \
-  -e DOCKER_REPO=fabrictestbed/loomai \
   --dns 8.8.8.8 --dns 8.8.4.4 \
   --restart unless-stopped \
-  fabrictestbed/loomai:0.2.0
+  fabrictestbed/loomai:0.3.0
 ```
+
+### Environment Variables
+
+| Variable | Description |
+|----------|-------------|
+| `LOOMAI_PASSWORD` | Set a custom password (default: auto-generated, shown in logs) |
+| `LOOMAI_NO_AUTH=1` | Disable password protection (for trusted networks) |
+| `LOOMAI_ENABLE_DOCS=1` | Enable Swagger/ReDoc API docs (disabled by default) |
