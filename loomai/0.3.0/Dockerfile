@@ -4,7 +4,7 @@
 # Convention: fabrictestbed/loomai:<version>
 # Source:     https://github.com/fabric-testbed/loomai
 
-ARG LOOMAI_VERSION=v0.3.0
+ARG LOOMAI_VERSION=v0.3.3
 ARG LOOMAI_REPO=https://github.com/fabric-testbed/loomai.git
 
 # --- Stage 1: Clone source ---
