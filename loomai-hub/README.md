@@ -9,7 +9,7 @@ Multi-user orchestrator for LoomAI on Kubernetes. Handles CILogon OIDC authentic
 
 | Version | Description |
 |---------|-------------|
-| 0.1.0   | Initial release — CILogon OAuth, FABRIC authorization, KubeSpawner, idle culler |
+| 0.1.0   | Initial release — CILogon OAuth, FABRIC authorization, KubeSpawner, idle culler (builds from LoomAI v0.4.0) |
 
 ## Ports
 
