@@ -1,0 +1,28 @@
+services:
+  loomai:
+    image: fabrictestbed/loomai:0.5.0
+    ports:
+      - "127.0.0.1:3000:3000"        # Web UI (nginx)
+      - "127.0.0.1:8000:8000"        # Backend API (direct access)
+      - "127.0.0.1:8889:8889"        # JupyterLab
+      - "127.0.0.1:9100-9199:9100-9199"  # SSH tunnels for My Web Apps
+    volumes:
+      - fabric_work:/home/fabric/work
+    environment:
+      - FABRIC_CONFIG_DIR=/home/fabric/work/fabric_config
+      - FABRIC_STORAGE_DIR=/home/fabric/work
+      - LOOMAI_PASSWORD=${LOOMAI_PASSWORD:-}    # Set a custom password (default: auto-generated, shown in logs)
+      - LOOMAI_NO_AUTH=${LOOMAI_NO_AUTH:-}      # Set to 1 to disable password protection (for trusted networks)
+    dns:
+      - 8.8.8.8
+      - 8.8.4.4
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 15s
+
+volumes:
+  fabric_work:

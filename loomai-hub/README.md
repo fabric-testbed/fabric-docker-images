@@ -9,6 +9,7 @@ Multi-user orchestrator for LoomAI on Kubernetes. Handles CILogon OIDC authentic
 
 | Version | Description |
 |---------|-------------|
+| 0.2.0   | Hub auth overhaul — bastion login extraction from UIS API, user UUID passthrough, 8-hour idle culler timeout (builds from LoomAI v0.5.0) |
 | 0.1.0   | Initial release — CILogon OAuth, FABRIC authorization, KubeSpawner, idle culler (builds from LoomAI v0.4.0) |
 
 ## Ports
@@ -24,7 +25,7 @@ The Hub is designed to run as part of the LoomAI Helm chart on Kubernetes. See t
 ### Standalone (for development)
 
 ```bash
-docker pull fabrictestbed/loomai-hub:0.1.0
+docker pull fabrictestbed/loomai-hub:0.2.0
 docker run -d \
   -p 8081:8081 \
   -v hub_data:/app/data \
@@ -33,7 +34,7 @@ docker run -d \
   -e SESSION_SECRET=<random-secret> \
   -e CHP_API_TOKEN=<proxy-auth-token> \
   -e FABRIC_CORE_API=https://uis.fabric-testbed.net \
-  fabrictestbed/loomai-hub:0.1.0
+  fabrictestbed/loomai-hub:0.2.0
 ```
 
 ### Required Environment Variables
