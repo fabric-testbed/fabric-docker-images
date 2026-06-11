@@ -9,6 +9,7 @@ AI-assisted experiment designer for the [FABRIC testbed](https://fabric-testbed.
 
 | Version | LoomAI Release | Description |
 |---------|---------------|-------------|
+| 0.7.0    | v0.7.0         | Chameleon slices view, persistent server-held PTY terminals, per-user storage and AI-tool config isolation, OAuth CSRF protection and security hardening, daemonized JupyterLab |
 | 0.6.0    | v0.6.0         | Redesign Apps tab as persistent Tunnels manager with HTTP/HTTPS protocol support, port-reachability validation, AI tool enhancements |
 | 0.5.1    | v0.5.1         | OpenAI Responses API support for models like gpt-5.5, auto-detect temperature-unsupported models, model_type persistence across restarts |
 | 0.5.0    | v0.5.0         | Hub auth overhaul (bastion login injection, user UUID passthrough), custom LLM provider routing and testing, Azure health check fix |
@@ -39,7 +40,7 @@ AI-assisted experiment designer for the [FABRIC testbed](https://fabric-testbed.
 ### Docker Compose (recommended)
 
 ```bash
-curl -O https://raw.githubusercontent.com/fabric-testbed/fabric-docker-images/main/loomai/0.6.0/docker-compose.yml
+curl -O https://raw.githubusercontent.com/fabric-testbed/fabric-docker-images/main/loomai/0.7.0/docker-compose.yml
 docker compose up -d
 ```
 
@@ -51,7 +52,7 @@ docker compose logs | grep "LoomAI password"
 ### Docker Run
 
 ```bash
-docker pull fabrictestbed/loomai:0.6.0
+docker pull fabrictestbed/loomai:0.7.0
 docker run -d \
   -p 3000:3000 -p 8000:8000 -p 8889:8889 -p 9100-9199:9100-9199 \
   -v fabric_work:/home/fabric/work \
@@ -59,7 +60,7 @@ docker run -d \
   -e FABRIC_STORAGE_DIR=/home/fabric/work \
   --dns 8.8.8.8 --dns 8.8.4.4 \
   --restart unless-stopped \
-  fabrictestbed/loomai:0.6.0
+  fabrictestbed/loomai:0.7.0
 ```
 
 ### Environment Variables
