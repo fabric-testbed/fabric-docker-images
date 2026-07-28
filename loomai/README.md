@@ -9,6 +9,7 @@ AI-assisted experiment designer for the [FABRIC testbed](https://fabric-testbed.
 
 | Version | LoomAI Release | Description |
 |---------|---------------|-------------|
+| 0.8.2    | v0.8.2         | SPHERE testbed integration (experiment builder, XDC access, weave packaging), terminal clipboard copy/paste, auth-gated JupyterLab/tool proxies, nginx upload and long-operation timeout fixes, writable matplotlib cache |
 | 0.7.3    | v0.7.3         | Popup/modal fixes, in-browser dropdown selectors, simplified add-VM-node form |
 | 0.7.2    | v0.7.2         | LoomAI CLI modernization (expanded command coverage, interactive shell), federated terminology across the UI and CLI |
 | 0.7.1    | v0.7.1         | Topology view fixes (federated facility L2 rendering), authenticated weave runs, raised upload size limit, deployment hardening |
@@ -33,17 +34,17 @@ AI-assisted experiment designer for the [FABRIC testbed](https://fabric-testbed.
 
 | Port | Service | Description |
 |------|---------|-------------|
-| 3000 | Nginx | Web UI frontend |
-| 8000 | Uvicorn | FastAPI backend API |
-| 8889 | JupyterLab | Per-slice notebook environments |
-| 9100-9199 | SSH Proxy | Tunnel proxies for VM web apps |
+| 3000 | Nginx | Web UI frontend — the only entrypoint; proxies `/api`, `/jupyter`, `/aider`, `/opencode`, `/tunnel` with the session auth gate |
+| 8000 | Uvicorn | FastAPI backend API (internal — reach via nginx on 3000) |
+| 8889 | JupyterLab | Per-slice notebook environments (internal — reach via nginx on 3000 so auth applies) |
+| 9100-9199 | SSH Proxy | Tunnel proxies for VM web apps (publish on loopback only — direct access bypasses the auth gate; remote users go through `/tunnel/` on 3000) |
 
 ## Usage
 
 ### Docker Compose (recommended)
 
 ```bash
-curl -O https://raw.githubusercontent.com/fabric-testbed/fabric-docker-images/main/loomai/0.7.3/docker-compose.yml
+curl -O https://raw.githubusercontent.com/fabric-testbed/fabric-docker-images/main/loomai/0.8.2/docker-compose.yml
 docker compose up -d
 ```
 
@@ -55,16 +56,21 @@ docker compose logs | grep "LoomAI password"
 ### Docker Run
 
 ```bash
-docker pull fabrictestbed/loomai:0.7.3
+docker pull fabrictestbed/loomai:0.8.2
 docker run -d \
-  -p 3000:3000 -p 8000:8000 -p 8889:8889 -p 9100-9199:9100-9199 \
+  -p 127.0.0.1:3000:3000 -p 127.0.0.1:9100-9199:9100-9199 \
   -v fabric_work:/home/fabric/work \
   -e FABRIC_CONFIG_DIR=/home/fabric/work/fabric_config \
   -e FABRIC_STORAGE_DIR=/home/fabric/work \
   --dns 8.8.8.8 --dns 8.8.4.4 \
   --restart unless-stopped \
-  fabrictestbed/loomai:0.7.3
+  fabrictestbed/loomai:0.8.2
 ```
+
+Ports are bound to `127.0.0.1` on purpose: the tunnel proxies (9100-9199) have no
+authentication of their own — only the nginx `/tunnel/` route on 3000 enforces the
+session auth gate. To expose LoomAI remotely, publish only 3000 (ideally behind
+HTTPS) and let nginx proxy everything else.
 
 ### Environment Variables
 
