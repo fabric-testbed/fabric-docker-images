@@ -30,4 +30,4 @@ openstacksdk
 pyopenssl
 cryptography
 python-chi
-setuptools==83.0.0
+setuptools==84.2.1
